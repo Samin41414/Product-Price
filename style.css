@@ -140,3 +140,54 @@ body.back-print-mode {
         line-height: 1.1 !important;
     }
 }
+
+/* =========================================================
+   MOBILE & TOUCH
+   ========================================================= */
+body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+.overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+/* Touch screens have no hover: stop cards staying "lifted" after a tap */
+@media (hover: none) {
+    .premium-card:hover {
+        transform: none;
+        border-color: #e2e8f0;
+        box-shadow: 0 4px 20px -2px rgba(0, 43, 73, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+    .premium-card:hover::before { opacity: 0; }
+}
+
+@media screen and (max-width: 640px) {
+    /* 16px inputs stop iOS Safari from zooming the page when a field is tapped */
+    input:not([type="checkbox"]), select, textarea { font-size: 16px !important; }
+
+    /* Popups: tighter padding so more of the form fits */
+    #autoCatModal > div,
+    #modalOverlay > div,
+    #settingsModal > div { padding: 1.25rem !important; border-radius: 1.5rem; }
+    #modalOverlay, #autoCatModal, #settingsModal { padding: 0.75rem; align-items: flex-end; }
+    #modalOverlay > div, #autoCatModal > div { max-height: 92vh; max-height: 92dvh; }
+
+    /* 3-up form rows become 2-up on a phone */
+    #modalInputs .grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    /* Front Page (client view) table: compact so name / model / price fit without sideways scrolling */
+    #frontPdfExportArea th,
+    #frontPdfExportArea td { padding: 0.65rem 0.5rem !important; }
+    #frontPdfExportArea th.w-16 { width: 2rem; }
+    #frontPdfExportArea td .inline-block,
+    #frontPdfExportArea td > div { min-width: 0; }
+
+    /* Back table: slightly tighter cells */
+    #backPdfExportArea table th,
+    #backPdfExportArea table td { padding-left: 0.4rem; padding-right: 0.4rem; }
+
+    /* Lock buttons / checkboxes: bigger tap targets */
+    #lockRateBtn, #lockProfitBtn, #lockCommissionBtn, #lockCustomsBtn, #lockImportBtn { padding: 0.5rem 0.75rem; }
+    #importTaxToggle { width: 1.1rem; height: 1.1rem; }
+}
+
+/* Very small phones */
+@media screen and (max-width: 380px) {
+    #frontPdfExportArea th, #frontPdfExportArea td { padding: 0.55rem 0.35rem !important; font-size: 11px; }
+}
