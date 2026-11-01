@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog & Pricing Tool - ASK INVESTMENT</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- External Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            800: '#00365c',
+                            900: '#002B49',
+                        },
+                        gold: {
+                            500: '#d97706',
+                            600: '#b45309',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col bg-white text-slate-900 antialiased">
+
+    <!-- TOP NAVBAR -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 no-print shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
+            <div class="w-24 sm:w-32 hidden sm:block"></div>
+            <div class="flex flex-col items-center justify-center cursor-pointer mx-auto sm:mx-0 sm:absolute sm:left-1/2 sm:-translate-x-1/2 group" onclick="showFrontPageHome()">
+                <img src="logo.jpg" alt="ASK INVESTMENT Logo" class="h-10 w-auto object-contain mb-0.5 transition group-hover:scale-105" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x50?text=ASK+LOG';">
+                <span class="text-xs font-black tracking-widest text-[#002B49] uppercase flex items-center gap-1">
+                    ASK INVESTMENT <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                </span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/80">
+                    <button id="navFrontBtn" onclick="showFrontPageHome()" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-[#002B49] text-white shadow-md border border-[#002B49]">
+                        <i class="fa-solid fa-store text-amber-400"></i> Front Page
+                    </button>
+                    <button id="navBackBtn" onclick="showBackPageHome()" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/50">
+                        <i class="fa-solid fa-gears text-slate-500"></i> Back Page
+                    </button>
+                </div>
+                <button onclick="openSettingsModal()" title="System Settings & Data Backup" class="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-[#002B49] text-slate-700 hover:text-amber-400 border border-slate-200/80 flex items-center justify-center transition-all shadow-sm">
+                    <i class="fa-solid fa-gear text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- FRONT PAGE VIEW -->
+        <div id="frontPageView" class="space-y-6">
+            <div id="frontHomeSubView" class="space-y-8">
+                <div class="bg-gradient-to-r from-slate-900 via-[#002B49] to-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl text-white relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-bold text-amber-300 mb-3 shadow-inner">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Premium Product Collection
+                            </div>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">Product Categories</h2>
+                            <p class="text-xs text-slate-300 mt-1.5 font-medium max-w-xl">Select a category box below to view product models and standard pricing per SFT.</p>
+                        </div>
+                        <div class="relative no-print">
+                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input type="text" id="frontHomeSearchInput" oninput="filterFrontCategories()" placeholder="Search category or model no..." class="w-full sm:w-72 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl pl-10 pr-4 py-3.5 text-xs text-white placeholder-slate-300 focus:outline-none focus:border-amber-400 focus:bg-white/20 transition font-medium shadow-inner">
+                        </div>
+                    </div>
+                </div>
+                <div id="frontCategoryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+            </div>
+
+            <div id="frontDetailSubView" class="hidden space-y-4">
+                <div class="flex items-center no-print">
+                    <button onclick="showFrontPageHome()" class="glass-back-btn inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl text-xs font-bold text-[#002B49] hover:text-sky-700 transition group">
+                        <i class="fa-solid fa-arrow-left text-amber-500 group-hover:-translate-x-1 transition-transform"></i> Back to Categories
+                    </button>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-7 shadow-lg text-white flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden print-header-card">
+                    <div class="absolute left-0 top-0 w-2 h-full bg-amber-500 no-print"></div>
+                    <div>
+                        <h2 id="frontDetailCatTitle" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Category Pricing</h2>
+                        <p class="text-xs text-slate-400 mt-1 font-medium">All prices are calculated per SFT in BDT.</p>
+                    </div>
+                    <div class="flex items-center gap-3 no-print">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input type="text" id="frontSearchInput" oninput="renderFrontPageTable()" placeholder="Search model or name..." class="bg-white/10 border border-white/20 text-xs text-white placeholder-slate-400 pl-9 pr-3 py-3 rounded-2xl focus:outline-none focus:border-amber-400 focus:bg-white/20 transition w-48 sm:w-60 font-medium">
+                        </div>
+                        <button onclick="window.print()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-3 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
+                            <i class="fa-solid fa-print"></i> Print Sheet
+                        </button>
+                    </div>
+                </div>
+                <div id="frontPdfExportArea" class="bg-white border border-slate-200 rounded-3xl shadow-lg overflow-hidden print-card">
+                    <div class="px-7 py-5 border-b border-slate-200 bg-slate-50/80 flex items-center justify-between print-meta">
+                        <div>
+                            <h3 id="frontSelectedCatName" class="text-lg font-black text-slate-900 tracking-tight">Category Details</h3>
+                            <p class="text-xs text-slate-500 mt-0.5 font-medium">Standard commercial rates per Square Feet (SFT)</p>
+                        </div>
+                        <div class="text-right text-xs text-slate-500 font-mono font-bold bg-white px-3.5 py-1.5 rounded-full border border-slate-200 shadow-sm">
+                            Date: <span id="currentDateStr" class="text-sky-700 font-semibold">2026-10-31</span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm print-table">
+                            <thead class="bg-slate-900 text-slate-200 font-bold border-b border-slate-800 uppercase text-[10px] tracking-wider" id="frontTableHead">
+                                <tr>
+                                    <th class="py-4 px-6 text-center w-16">#</th>
+                                    <th class="py-4 px-6">Product Name</th>
+                                    <th class="py-4 px-6">Model No.</th>
+                                    <th class="py-4 px-6 text-center text-amber-400 font-black">PER SFT PRICE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="frontTableBody" class="divide-y divide-slate-100 font-normal"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BACK PAGE VIEW -->
+        <div id="backPageView" class="hidden space-y-6">
+            <div id="backHomeSubView" class="space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-7 shadow-lg text-white flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative overflow-hidden">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 mb-2">
+                            <i class="fa-solid fa-shield-halved"></i> ASK INVESTMENT Admin Panel
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Master Categories Breakdown</h2>
+                        <p class="text-xs text-slate-400 mt-1 font-medium">Manage categories, update factory costs, and set pricing multipliers.</p>
+                    </div>
+                    <button onclick="addNewCategoryModal()" class="bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white font-bold px-5 py-3 rounded-2xl text-xs flex items-center gap-2 transition shadow-lg shadow-sky-600/20 border border-sky-400/30">
+                        <i class="fa-solid fa-plus text-amber-300"></i> Add New Category
+                    </button>
+                </div>
+                <div class="max-w-xl">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="backHomeSearchInput" oninput="filterCategoriesBackHome()" placeholder="Search category or model no..." class="w-full bg-white border border-slate-300 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-600 focus:ring-2 focus:ring-sky-100 transition shadow-sm font-medium">
+                    </div>
+                </div>
+                <div id="backCategoryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+            </div>
+
+            <div id="backDetailSubView" class="hidden space-y-4">
+                <div class="flex items-center justify-between no-print">
+                    <button onclick="showBackPageHome()" class="glass-back-btn inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl text-xs font-bold text-[#002B49] hover:text-sky-700 transition group">
+                        <i class="fa-solid fa-arrow-left text-amber-500 group-hover:-translate-x-1 transition-transform"></i> Back to Categories
+                    </button>
+                    <button onclick="window.print()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-print"></i> Print Sheet
+                    </button>
+                </div>
+
+                <div id="backPdfExportArea" class="space-y-4">
+                    <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-md space-y-4 print-card">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4 print-header-card">
+                            <div>
+                                <h2 id="backDetailCategoryTitle" class="text-xl font-black text-slate-900">Category Breakdown</h2>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <div class="flex items-center bg-emerald-50/90 border border-emerald-300 rounded-2xl p-1.5 text-xs shadow-sm">
+                                    <span class="text-emerald-950 font-extrabold px-2 flex items-center gap-1">
+                                        <i class="fa-solid fa-dollar-sign text-emerald-600 no-print"></i> 1 USD = BDT
+                                    </span>
+                                    <input type="number" id="usdRateInput" value="124" step="0.5" oninput="updateUsdRate()" class="w-16 bg-white text-emerald-900 font-black border border-emerald-400 rounded-xl px-2 py-1 text-center focus:outline-none shadow-inner">
+                                    <button id="lockRateBtn" onclick="toggleRateLock()" class="ml-1 px-2.5 py-1 rounded-xl bg-emerald-200/80 text-emerald-900 hover:bg-emerald-300 transition font-bold no-print">
+                                        <i id="lockRateIcon" class="fa-solid fa-lock text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center bg-amber-50/90 border border-amber-300 rounded-2xl p-1.5 text-xs shadow-sm">
+                                    <span class="text-amber-950 font-extrabold px-2 flex items-center gap-1">
+                                        <i class="fa-solid fa-chart-line text-amber-600 no-print"></i> Profit:
+                                    </span>
+                                    <input type="number" id="profitMarginInput" value="15" step="1" min="0" oninput="updateProfitMargin()" class="w-16 bg-white text-amber-900 font-black border border-amber-400 rounded-xl px-2 py-1 text-center focus:outline-none shadow-inner">
+                                    <span class="text-amber-950 font-bold px-1.5">%</span>
+                                    <button id="lockProfitBtn" onclick="toggleProfitLock()" class="ml-1 px-2.5 py-1 rounded-xl bg-amber-200/80 text-amber-900 hover:bg-amber-300 transition font-bold no-print">
+                                        <i id="lockProfitIcon" class="fa-solid fa-lock text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center bg-indigo-50/90 border border-indigo-300 rounded-2xl p-1.5 text-xs shadow-sm">
+                                    <span class="text-indigo-950 font-extrabold px-2 flex items-center gap-1">
+                                        <i class="fa-solid fa-handshake text-indigo-600 no-print"></i> Commission:
+                                    </span>
+                                    <input type="number" id="commissionMarginInput" value="5" step="1" min="0" oninput="updateCommissionMargin()" class="w-16 bg-white text-indigo-900 font-black border border-indigo-400 rounded-xl px-2 py-1 text-center focus:outline-none shadow-inner">
+                                    <span class="text-indigo-950 font-bold px-1.5">%</span>
+                                    <button id="lockCommissionBtn" onclick="toggleCommissionLock()" class="ml-1 px-2.5 py-1 rounded-xl bg-indigo-200/80 text-indigo-900 hover:bg-indigo-300 transition font-bold no-print">
+                                        <i id="lockCommissionIcon" class="fa-solid fa-lock text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center bg-sky-50/90 border border-sky-300 rounded-2xl p-1.5 text-xs shadow-sm self-start">
+                                    <span class="text-sky-950 font-extrabold px-2 flex items-center gap-1">
+                                        <i class="fa-solid fa-landmark text-sky-600 no-print"></i> Customs VAT &amp; TAX:
+                                    </span>
+                                    <input type="number" id="customsRateInput" value="67.5" step="0.5" min="0" oninput="updateCustomsRate()" class="w-16 bg-white text-sky-900 font-black border border-sky-400 rounded-xl px-2 py-1 text-center focus:outline-none shadow-inner">
+                                    <span class="text-sky-950 font-bold px-1.5">%</span>
+                                    <button id="lockCustomsBtn" onclick="toggleCustomsLock()" class="ml-1 px-2.5 py-1 rounded-xl bg-sky-200/80 text-sky-900 hover:bg-sky-300 transition font-bold no-print">
+                                        <i id="lockCustomsIcon" class="fa-solid fa-lock text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="flex flex-col items-start gap-1">
+                                    <div id="importTaxBox" class="flex items-center bg-rose-50/90 border border-rose-300 rounded-2xl p-1.5 text-xs shadow-sm transition-opacity">
+                                        <span class="text-rose-950 font-extrabold px-2 flex items-center gap-1">
+                                            <i class="fa-solid fa-ship text-rose-600 no-print"></i> Import TAX:
+                                        </span>
+                                        <input type="number" id="importRateInput" value="60" step="0.5" min="0" oninput="updateImportRate()" class="w-16 bg-white text-rose-900 font-black border border-rose-400 rounded-xl px-2 py-1 text-center focus:outline-none shadow-inner">
+                                        <span class="text-rose-950 font-bold px-1.5">%</span>
+                                        <button id="lockImportBtn" onclick="toggleImportLock()" class="ml-1 px-2.5 py-1 rounded-xl bg-rose-200/80 text-rose-900 hover:bg-rose-300 transition font-bold no-print">
+                                            <i id="lockImportIcon" class="fa-solid fa-lock text-xs"></i>
+                                        </button>
+                                    </div>
+                                    <label class="no-print flex items-center gap-1.5 pl-2 text-[11px] font-bold text-rose-900 cursor-pointer select-none">
+                                        <input type="checkbox" id="importTaxToggle" onchange="toggleImportTax()" class="rounded text-rose-600 focus:ring-rose-500 w-3.5 h-3.5">
+                                        <span>To Add Import TAX</span>
+                                    </label>
+                                </div>
+                                <div class="relative no-print">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                    <input type="text" id="backDetailSearchInput" oninput="renderBackDetailTable()" placeholder="Search model..." class="bg-slate-50 border border-slate-200 text-xs text-slate-800 pl-8 pr-3 py-2.5 rounded-xl focus:outline-none w-36 sm:w-44 font-medium">
+                                </div>
+                                <button onclick="addNewProductModal()" class="bg-[#002B49] hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition shadow-md border border-[#002B49] no-print">
+                                    <i class="fa-solid fa-plus text-amber-400"></i> Add Model
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BACK TABLE -->
+                    <div class="bg-white border border-slate-200 rounded-3xl shadow-md overflow-hidden print-card">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-800 print-table">
+                                <thead class="bg-slate-900 text-slate-200 font-bold border-b border-slate-800 uppercase tracking-wider text-[11px]" id="backTableHead">
+                                    <tr>
+                                        <th class="p-3 text-center w-8">#</th>
+                                        <th class="p-3">PRODUCT NAME</th>
+                                        <th class="p-3 text-center">MODEL NO.</th>
+                                        <th class="p-3 text-center">1 PCS SQM</th>
+                                        <th class="p-3 text-center">MOQ M2</th>
+                                        <th class="p-3 text-right">EXW/SQM</th>
+                                        <th class="p-3 text-right">EXW/SFT</th>
+                                        <th class="p-3 text-right">FREIGHT COST</th>
+                                        <th class="p-3 text-right">CUSTOMS, VAT, TAX</th>
+                                        <th class="p-3 text-right">TRANSPORT COST</th>
+                                        <th class="p-3 text-right">BASE / SFT</th>
+                                        <th class="p-3 text-right text-amber-300 font-black bg-amber-950/40">PROFIT</th>
+                                        <th class="p-3 text-right text-indigo-300 font-black bg-indigo-950/40">COMMISSION</th>
+                                        <th class="p-3 text-right text-emerald-300 font-black bg-emerald-950/50">PRODUCT PRICE</th>
+                                        <th class="p-3 text-center no-print w-20">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="backDetailTableBody" class="divide-y divide-slate-100 font-normal"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- SYSTEM SETTINGS & MODALS -->
+    <div id="settingsModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-lg p-7 space-y-6 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-slate-100 text-[#002B49] flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-black text-slate-900">System Settings & Data Backup</h3>
+                        <p class="text-xs text-slate-400 font-medium">Save data permanently to your laptop</p>
+                    </div>
+                </div>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-slate-600 transition p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-sky-50/60 border border-sky-100 p-4 rounded-2xl space-y-2">
+                    <h4 class="text-xs font-black text-sky-900 flex items-center gap-2">
+                        <i class="fa-solid fa-download text-sky-600"></i> Export & Save Data to Laptop
+                    </h4>
+                    <p class="text-[11px] text-slate-600 leading-relaxed font-medium">Page-e ja kichu model, price ba category update korechen oita .json file hisebe laptop-e download kore rakhun.</p>
+                    <button onclick="exportDataBackup()" class="mt-1 w-full bg-[#002B49] hover:bg-slate-800 text-white text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-floppy-disk text-amber-400"></i> Save / Export Backup File
+                    </button>
+                </div>
+                <div class="bg-amber-50/60 border border-amber-100 p-4 rounded-2xl space-y-2">
+                    <h4 class="text-xs font-black text-amber-900 flex items-center gap-2">
+                        <i class="fa-solid fa-upload text-amber-600"></i> Load / Restore Backup File
+                    </h4>
+                    <p class="text-[11px] text-slate-600 leading-relaxed font-medium">Laptop-e age save kora backup .json file ekhan theke upload korlei shob data restore hoye jabe.</p>
+                    <input type="file" id="importFileInput" accept=".json" onchange="importDataBackup(event)" class="hidden">
+                    <button onclick="document.getElementById('importFileInput').click()" class="mt-1 w-full bg-white hover:bg-amber-100/50 text-amber-900 border border-amber-200 text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-folder-open text-amber-600"></i> Load Backup File
+                    </button>
+                </div>
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs text-slate-400 font-medium">Reset system to factory original dataset?</span>
+                    <button onclick="resetDataToDefault()" class="text-xs text-rose-600 hover:text-rose-800 font-bold px-3 py-1.5 rounded-lg hover:bg-rose-50 transition">
+                        Reset Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD CATEGORY: MANUAL / AUTO (FROM PICTURE) -->
+    <div id="autoCatModal" class="fixed inset-0 bg-slate-950/50 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-3xl p-7 space-y-5 shadow-2xl max-h-[92vh] overflow-y-auto relative">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 id="acTitle" class="text-base font-black text-slate-900">Add Product Category</h3>
+                <button onclick="closeAutoCat()" class="text-slate-400 hover:text-slate-600 transition p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="acError" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2"></div>
+
+            <!-- Step 1: choose -->
+            <div id="acStep1" class="space-y-3">
+                <p class="text-xs font-semibold text-slate-600">Category kivabe add korte chao?</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="acChoose('manual')" class="text-left bg-slate-50 hover:bg-white border border-slate-200 hover:border-sky-500 rounded-2xl p-5 transition shadow-sm group">
+                        <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#002B49] group-hover:text-amber-400 text-slate-700 flex items-center justify-center mb-3 transition"><i class="fa-solid fa-keyboard"></i></div>
+                        <div class="text-sm font-black text-slate-900">Manually</div>
+                        <p class="text-[11px] text-slate-500 mt-1 font-medium">Category-r nam likhe nijer haate model add korbo.</p>
+                    </button>
+                    <button onclick="acChoose('auto')" class="text-left bg-amber-50/60 hover:bg-white border border-amber-200 hover:border-amber-500 rounded-2xl p-5 transition shadow-sm group">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 group-hover:bg-[#002B49] group-hover:text-amber-400 text-amber-700 flex items-center justify-center mb-3 transition"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="text-sm font-black text-slate-900">Auto (from picture)</div>
+                        <p class="text-[11px] text-slate-500 mt-1 font-medium">Quotation-er picture dao. Table-er column, product ar price nijei boshe jabe.</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: upload -->
+            <div id="acStep2" class="hidden space-y-4">
+                <p class="text-xs font-semibold text-slate-600">Quotation-er picture (ba PDF) add koro. Ekadhik page thakle shob gula ek-shathe add koro.</p>
+                <input type="file" id="acFileInput" accept="image/*,application/pdf" multiple onchange="acHandleFiles(event)" class="hidden">
+                <button onclick="document.getElementById('acFileInput').click()" class="w-full border-2 border-dashed border-slate-300 hover:border-amber-500 hover:bg-amber-50/40 rounded-2xl py-6 text-xs font-bold text-slate-600 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-image text-amber-600"></i> Add Pictures / PDF
+                </button>
+                <div id="acFileList" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Category name (optional)</label>
+                        <input type="text" id="acCatNameHint" placeholder="Khali rakhle picture theke nibe" class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-800 mb-1">Anthropic API key</label>
+                        <input type="password" id="acKeyInput" placeholder="sk-ant-..." autocomplete="off" class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium">
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed font-medium">Picture porar jonno Claude API lage, tai key ekbar-i dite hobe (console.anthropic.com theke neo). Key sudhu ei browser-e save thake, backup ba cloud data-te jay na. Proti quotation porate shamanno API charge kate.</p>
+                <div class="flex justify-between gap-2.5 pt-3 border-t border-slate-100">
+                    <button onclick="acShowStep(1)" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">Back</button>
+                    <button id="acReadBtn" onclick="acReadQuotation()" class="px-5 py-2.5 bg-[#002B49] hover:bg-slate-800 text-white font-extrabold rounded-xl text-xs transition shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> <span id="acReadBtnText">Read Quotation</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: preview -->
+            <div id="acStep3" class="hidden space-y-4">
+                <div id="acPreview" class="space-y-4"></div>
+                <div class="flex justify-between gap-2.5 pt-3 border-t border-slate-100">
+                    <button onclick="acShowStep(2)" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">Back</button>
+                    <button onclick="acCreate()" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black rounded-xl text-xs transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-check"></i> Create Category
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modalOverlay" class="fixed inset-0 bg-slate-950/50 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border border-slate-200 rounded-3xl w-full max-w-md p-7 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto relative">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 id="modalTitle" class="text-base font-black text-slate-900">Add New Model</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="genericForm" onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs">
+                <div id="modalInputs"></div>
+                <div class="flex justify-end gap-2.5 pt-4 border-t border-slate-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">Cancel</button>
+                    <button type="submit" class="px-5 py-2.5 bg-[#002B49] hover:bg-slate-800 text-white font-extrabold rounded-xl transition shadow-md">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'greenzone-pricing-sheet';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+        const tilesRaw = [[1, "Split-Face Tile", "As per catalogue", "2.5-3.5", "600*240mm", 4.7, 0.01, 0.06, 350, 24.0, 3.95], [2, "Cultured Stone", "As per catalogue", "2.5-4", "600*240mm", 5.3, 0.01, 0.06, 290, 20.0, 4.33], [3, "Slate", "As per catalogue", "2-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 6.23], [3, "Slate", "As per catalogue", "2-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 6.23], [4, "Travertine", "As per catalogue", "2.5-3.5", "600*300mm", 4.2, 0.18, 0.75, 28, 21.2, 6.99], [4, "Travertine", "As per catalogue", "2.5-3.5", "600*1200mm", 4.2, 0.72, 3.024, 26, 78.0, 6.99], [5, "Marble", "As per catalogue", "2-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 7.37], [5, "Marble", "As per catalogue", "2-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 7.37], [6, "Cut Stone", "As per catalogue", "2.5-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 7.37], [6, "Cut Stone", "As per catalogue", "2.5-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 7.37], [7, "Rammed Earth Board", "As per catalogue", "2.5-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 8.33], [7, "Rammed Earth Board", "As per catalogue", "2.5-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 8.33], [7, "Rammed Earth Board", "As per catalogue", "2.5-3.5", "600*2400mm", 3.9, 1.44, 5.6, 60, 337.0, 10.13], [7, "Rammed Earth Board", "As per catalogue", "2.5-3.5", "1200*2400mm", 3.9, 2.9, 11.2, 60, 674.0, 10.13], [8, "Starmoon Stone", "As per catalogue", "2.5-5", "600*300mm", 6.2, 0.18, 1.1, 16, 17.9, 11.56], [8, "Starmoon Stone", "As per catalogue", "2.5-5", "600*1200mm", 6.2, 0.72, 4.46, 16, 71.4, 11.56], [9, "Shale", "As per catalogue", "2-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 8.33], [9, "Shale", "As per catalogue", "2-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 8.33], [10, "Granit", "As per catalogue", "2.5-3.5", "600*300mm", 3.9, 0.18, 0.7, 28, 20.0, 8.33], [10, "Granit", "As per catalogue", "2.5-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 8.33], [10, "Granit", "As per catalogue", "2.5-3.5", "600*2400mm", 3.9, 1.44, 5.6, 60, 336.0, 9.63], [11, "Sandstone", "As per catalogue", "2-3.5", "600*300mm", 4.0, 0.18, 0.72, 28, 20.0, 8.83], [11, "Sandstone", "As per catalogue", "2-3.5", "600*1200mm", 4.0, 0.72, 2.88, 26, 74.9, 8.33], [12, "Ashlar", "As per catalogue", "2.5-5", "600*300mm", 5.3, 0.18, 0.95, 16, 15.3, 11.56], [12, "Ashlar", "As per catalogue", "2.5-5", "1200*600mm", 5.3, 0.72, 3.75, 16, 60.0, 11.56], [13, "Flowing Stone", "As per catalogue", "3-7", "600*300mm", 7.4, 0.18, 1.33, 12, 16.0, 11.56], [13, "Flowing Stone", "As per catalogue", "3-7", "1200*600mm", 7.4, 0.72, 5.3, 12, 64.0, 11.56], [14, "Flattened Granite", "As per catalogue", "2.5-3.5", "600*300mm", 4.0, 0.18, 0.72, 28, 20.0, 11.56], [14, "Flattened Granite", "As per catalogue", "2.5-3.5", "1200*600mm", 4.0, 0.72, 2.88, 26, 74.9, 11.56], [15, "Round Line Stone", "As per catalogue", "2-7", "600*300mm", 5.3, 0.18, 0.95, 16, 15.3, 12.14], [15, "Round Line Stone", "As per catalogue", "2-7", "1200*600mm", 5.3, 0.72, 3.75, 16, 60.0, 12.14], [16, "3D Travertine", "As per catalogue", "2.5-3.5", "1200*600mm", 4.2, 0.72, 3.0, 26, 78.6, 9.66], [16, "3D Travertine", "As per catalogue", "2.5-3.5", "600*2400mm", 4.2, 1.4, 6.0, 60, 362.0, 10.96], [17, "3D Slate", "As per catalogue", "2-3.5", "1200*600mm", 3.9, 0.72, 2.8, 26, 73.0, 11.56], [18, "3D Marble", "As per catalogue", "2-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 11.56], [19, "3D Cut Stone", "As per catalogue", "2.5-3.5", "1200*600mm", 3.9, 0.72, 2.8, 26, 73.0, 11.56], [20, "3D Rammed Earth Board", "As per catalogue", "2.5-3.5", "1200*600mm", 3.9, 0.72, 2.8, 26, 73.0, 13.09], [20, "3D Rammed Earth Board", "As per catalogue", "2.5-3.5", "600*2400mm", 3.9, 1.44, 5.6, 60, 336.0, 14.39], [21, "3D Granit", "As per catalogue", "2.5-3.5", "600*1200mm", 3.9, 0.72, 2.8, 26, 73.0, 14.04], [21, "3D Granit", "As per catalogue", "2.5-3.5", "600*2400mm", 3.9, 1.4, 6.0, 60, 336.0, 15.34], [22, "3D Starmoon Stone", "As per catalogue", "2.5-5", "1200*600mm", 6.2, 0.72, 4.46, 16, 71.4, 17.28], [23, "3D Ashlar", "As per catalogue", "2.5-5", "1200*600mm", 5.3, 0.72, 3.75, 16, 60.0, 17.28], [24, "3D Flowing Water Porcelain Slab", "As per catalogue", "3-7", "600*1200mm", 7.4, 0.72, 5.0, 12, 64.0, 17.28], [24, "3D Flowing Water Porcelain Slab", "As per catalogue", "3-7", "600*1200mm", 7.4, 0.72, 5.0, 12, 64.0, 17.28], [25, "3D Round Line Stone", "As per catalogue", "2-6", "600*1200mm", 5.3, 0.7, 3.8, 16, 60.0, 17.85], [26, "Weaving", "", "3-5", "300*600mm", 4.2, 0.18, 0.75, 18, 13.6, 9.66], [26, "Weaving", "", "3-5", "600*1200mm", 4.2, 0.72, 3.024, 18, 54.4, 9.66], [26, "Weaving", "", "3-5", "600*2400mm", 4.2, 1.4, 6.0, 60, 362.0, 9.66], [26, "Weaving", "", "3-5", "1200*2400mm", 4.2, 2.9, 12.0, 60, 725.0, 9.66], [27, "Wood Grain Board", "", "2-3", "600*2400mm", 4.0, 1.4, 5.8, 60, 345.0, 9.66], [27, "Wood Grain Board", "", "2-3", "1200*2400mm", 4.0, 2.9, 11.5, 60, 691.0, 9.66], [28, "Concrete Board", "", "2.5-4", "600*3000mm", 5.2, 1.8, 9.4, 60, 561.0, 9.66], [28, "Concrete Board", "", "2.5-4", "1200*3000mm", 5.2, 3.6, 18.7, 60, 1123.0, 9.66], [29, "LineStone Board", "", "2.5-4", "600*1200mm", 4.8, 0.7, 3.5, 60, 362.0, 9.66], [29, "LineStone Board", "", "2.5-4", "600*2400mm", 4.8, 1.4, 6.9, 60, 414.0, 9.66], [29, "LineStone Board", "", "2.5-4", "1200*2400mm", 4.8, 2.9, 13.8, 60, 829.0, 9.66], [30, "Ripple Board", "", "2-8", "600*1200mm", 4.8, 0.7, 3.5, 14, 48.0, 10.16], [30, "Ripple Board", "", "2-8", "600*2400mm", 4.8, 1.4, 7.0, 60, 414.0, 10.16], [30, "Ripple Board", "", "2-8", "1200*2400mm", 4.8, 2.9, 14.0, 60, 829.0, 10.16], [31, "Starmoon Stone", "", "3-6", "600*300mm", 6.2, 0.18, 1.1, 16, 17.9, 11.56], [31, "Starmoon Stone", "", "3-6", "600*1200mm", 6.2, 0.72, 4.46, 16, 71.4, 11.56], [32, "Oman Linear Stone", "", "2.5-4", "600*1200mm", 4.8, 0.7, 3.5, 60, 362.0, 13.47], [32, "Oman Linear Stone", "", "2.5-4", "600*2400mm", 4.8, 1.4, 6.9, 60, 414.0, 13.47], [32, "Oman Linear Stone", "", "2.5-4", "1200*2400mm", 4.8, 2.9, 13.8, 60, 829.0, 13.47], [33, "Square Line Stone", "", "3-6", "600*1200mm", 6.2, 0.7, 4.5, 14, 62.5, 13.47], [33, "Square Line Stone", "", "3-6", "600*2400mm", 6.2, 1.4, 6.9, 60, 414.0, 13.47], [33, "Square Line Stone", "", "3-6", "1200*2400mm", 6.2, 2.9, 13.8, 60, 829.0, 13.47], [34, "Sawing Wood", "", "3.5-5", "600*3000mm", 4.8, 1.8, 8.6, 60, 518.0, 13.47], [34, "Sawing Wood", "", "3.5-5", "1200*3000mm", 4.8, 3.6, 17.3, 60, 1036.0, 13.47]];
+
+        const commodRaw = [["Normal hot stamping film", 2.0, 2.44, 12.3, 2100, 5.85], ["Normal hot stamping film", 2.0, 2.8, 14.15, 1850, 6.7], ["Normal hot stamping film", 2.0, 2.9, 14.65, 1800, 6.9], ["Normal hot stamping film", 2.5, 2.44, 15.4, 1720, 6.99], ["Normal hot stamping film", 2.5, 2.8, 17.7, 1480, 7.99], ["Normal hot stamping film", 2.5, 2.9, 18.3, 1440, 8.3], ["Normal hot stamping film", 2.8, 2.44, 17.26, 1520, 7.7], ["Normal hot stamping film", 2.8, 2.8, 19.8, 1320, 8.7], ["Normal hot stamping film", 2.8, 2.9, 20.5, 1280, 9.1], ["Normal hot stamping film", 3.0, 2.44, 18.5, 1420, 8.15], ["Normal hot stamping film", 3.0, 2.8, 21.2, 1240, 9.35], ["Normal hot stamping film", 3.0, 2.9, 22, 1200, 9.7], ["YMJ gilding film", 2.0, 2.44, 12.3, 2100, 6.85], ["YMJ gilding film", 2.0, 2.8, 14.15, 1850, 7.85], ["YMJ gilding film", 2.0, 2.9, 14.65, 1800, 8.15], ["YMJ gilding film", 2.5, 2.44, 15.4, 1720, 7.99], ["YMJ gilding film", 2.5, 2.8, 17.7, 1480, 9.15], ["YMJ gilding film", 2.5, 2.9, 18.3, 1440, 9.5], ["YMJ gilding film", 2.8, 2.44, 17.26, 1520, 8.7], ["YMJ gilding film", 2.8, 2.8, 19.8, 1320, 9.95], ["YMJ gilding film", 2.8, 2.9, 20.5, 1280, 10.3], ["YMJ gilding film", 3.0, 2.44, 18.5, 1420, 9.15], ["YMJ gilding film", 3.0, 2.8, 21.2, 1240, 10.5], ["YMJ gilding film", 3.0, 2.9, 22, 1200, 10.9]];
+
+        function buildCommodProducts() {
+            return commodRaw.map(r => {
+                const wM = 1.22, lM = r[2], area = wM * lM;
+                return {
+                    name: r[0], thickness: r[1], wM: wM, lM: lM,
+                    model: r[1].toFixed(1) + "mm · " + wM + "Mx" + lM + "M",
+                    weight: r[3], qty: r[4], pricePc: r[5],
+                    sqm: parseFloat(area.toFixed(4)), moq: r[4],
+                    priceSqm: r[5] / area,
+                    w: 0, t: 0, l: 0,
+                    freightCost: 1100, customTaxRate: 67.50, importTaxRate: 60, transportCost: 0.40
+                };
+            });
+        }
+        function buildCommodCategory() {
+            return { id: "commod-tiles", name: "Commod Tiles", layout: "commod",
+                columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                products: buildCommodProducts() };
+        }
+
+        const pbcRaw = [["CSW-150*15B", 670, 0.151, 20, 468, 9360, 150, 2.21], ["CSW-200*12", 830, 0.116, 15, 611, 9165, 200, 2.54], ["CSW-195*15s", 760, 0.108, 16, 657, 10512, 195, 2.95], ["CSW-150*8Y", 520, 0.046, 15, 1543, 23145, 150, 1.84], ["CSW-170*25", 950, 0.157, 12, 453, 5436, 170, 3.1], ["CSW-190*14", 830, 0.135, 16, 526, 8416, 190, 2.54], ["CSW-200*10", 750, 0.144, 20, 491, 9820, 200, 2.31], ["CSW-196*10", 680, 0.097, 15, 729, 10935, 196, 2.21], ["CSW-205*9", 830, 0.102, 15, 694, 10410, 205, 2.54], ["CSW-180*14", 880, 0.128, 15, 552, 8280, 180, 3.69], ["CSW-150*10A", 550, 1.012, 20, 70, 1400, 150, 2.12], ["CSW-195*14B", 820, 0.126, 14, 565, 7910, 195, 2.44], ["CSW-195*14A", 750, 0.126, 14, 565, 7910, 195, 2.31], ["CSW-150*10A", 540, 0.153, 30, 463, 13890, 150, 1.84], ["CSW-150*10B", 520, 0.153, 30, 463, 13890, 150, 1.75], ["CSW-150*12", 550, 0.109, 18, 650, 11700, 150, 1.84], ["CSW-200*10", 750, 0.085, 16, 837, 13392, 200, 2.4], ["CSW-150*15BY", 670, 0.151, 20, 468, 9360, 150, 2.21], ["CSW-199*25", 1000, 0.141, 10, 504, 5040, 199, 4.15], ["CSW-186*25", 1150, 0.147, 10, 482, 4820, 186, 4.89], ["CSW-200*15", 750, 0.135, 16, 526, 8416, 200, 3.13], ["CSW-10210", 4, 0.067, 20, 1057, 21140, 102, 1.84], ["CSW-160*18", 750, 0.116, 18, 614, 11052, 160, 2.49], ["CSW-200*20", 950, 0.116, 14, 614, 8596, 200, 2.95], ["CSW-180*30", 920, 0.207, 11, 342, 3762, 150, 3.7], ["CSW-195*28", 1050, 0.129, 12, 551, 6612, 195, 3.46], ["CSW-195*25", 950, 0.11, 12, 643, 7716, 195, 3.04], ["CSW-160*16A", 820, 0.072, 12, 986, 11832, 160, 2.67], ["CSW-160*16B", 750, 0.116, 18, 614, 11052, 160, 2.54], ["CSW-175*17", 800, 0.138, 15, 515, 7725, 175, 2.77], ["CSW-160*18", 1300, 0.064, 10, 1111, 11110, 160, 3.46], ["CSW-150*85", 650, 0.061, 16, 1162, 18592, 150, 1.94], ["CSW-195*12", 620, 0.176, 24, 403, 9672, 195, 1.89], ["CSW-150*17", 620, 0.112, 20, 635, 12700, 150, 1.89], ["CSW-160*24A", 850, 0.111, 14, 650, 9100, 160, 2.21], ["CSW-160*24C", 800, 0.111, 14, 650, 9100, 160, 2.31], ["CSW-160*22", 1000, 0.083, 14, 853, 11942, 160, 2.63], ["CSW-160*22B", 750, 0.134, 20, 530, 10600, 160, 2.07], ["CSW-160*20", 720, 0.124, 20, 570, 11400, 160, 2.03], ["CSW-160*24B", 1020, 0.116, 14, 650, 9100, 160, 3.0]];
+
+        function buildPbcProducts() {
+            return pbcRaw.map(r => {
+                const lengthM = 2.9, widthMm = r[6];
+                const area = (widthMm / 1000) * lengthM;
+                return {
+                    name: "WPC wall panel", model: r[0],
+                    serviceLife: "20 years", warranty: "1 year", moqPcs: 300, moq: 300,
+                    gMeter: r[1], cbmBox: r[2], pcsBox: r[3], totalBox: r[4], qty: r[5],
+                    widthMm: widthMm, lengthM: lengthM, pricePc: r[7],
+                    sqm: parseFloat(area.toFixed(4)), priceSqm: r[7] / area,
+                    w: 0, t: 0, l: 0,
+                    freightCost: 1100, customTaxRate: 67.50, transportCost: 0.40
+                };
+            });
+        }
+        function buildPbcCategory() {
+            return { id: "pbc", name: "PBC", layout: "pbc",
+                columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                products: buildPbcProducts() };
+        }
+
+        function buildTilesProducts() {
+            return tilesRaw.map(r => ({
+                no: r[0], name: r[1], color: r[2], thickness: r[3], desc: r[4], model: r[4],
+                nwM2: r[5], sqm: r[6], nwPcs: r[7], pcsBox: r[8], moq: r[8], nwBox: r[9], priceSqm: r[10],
+                w: 0, t: 0, l: 0, pricePc: 0,
+                freightCost: 1100, customTaxRate: 67.50, transportCost: 0.40
+            }));
+        }
+
+        // Old saved "Tiles" data (3 simple models) is upgraded to the new price-list layout
+        function migrateCategories(cats) {
+            if (!Array.isArray(cats)) return cats;
+            const idx = cats.findIndex(c => c.id === "tiles");
+            if (idx !== -1 && cats[idx].layout !== "tiles") {
+                cats[idx] = {
+                    id: "tiles", name: cats[idx].name || "Tiles", layout: "tiles",
+                    columnConfig: cats[idx].columnConfig || { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                    products: buildTilesProducts()
+                };
+            }
+            if (!cats.some(c => c.id === "commod-tiles") && localStorage.getItem("commod_seeded") !== "1") {
+                cats.push(buildCommodCategory());
+            }
+            if (!cats.some(c => c.id === "pbc") && localStorage.getItem("pbc_seeded") !== "1") {
+                cats.push(buildPbcCategory());
+            }
+            return cats;
+        }
+
+        const defaultCategories = [
+            {
+                id: "tiles",
+                name: "Tiles",
+                layout: "tiles",
+                columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                products: buildTilesProducts()
+            },
+            {
+                id: "wild-nature-stone",
+                name: "Wild Nature Stone Composite",
+                columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                products: [
+                    { name: "Wild nature Stone Composite", model: "IT-D10", w: 600, t: 2.5, l: 1200, sqm: 0.72, moq: 200.00, priceSqm: 15.10, pricePc: 10.87, freightCost: 1100, customTaxRate: 67.50, transportCost: 0.40 },
+                    { name: "Wild nature Stone Composite", model: "IT-D11", w: 600, t: 2.5, l: 1200, sqm: 0.72, moq: 200.00, priceSqm: 15.10, pricePc: 10.87, freightCost: 1100, customTaxRate: 67.50, transportCost: 0.40 }
+                ]
+            }
+        ];
+
+        defaultCategories.push(buildCommodCategory());
+        defaultCategories.push(buildPbcCategory());
+        window.categoryData = defaultCategories;
+        window.activeCategoryId = defaultCategories[0].id;
+        window.activeView = "front"; 
+        window.activeFrontSubView = "home"; 
+        window.activeBackSubView = "home"; 
+        window.usdRate = parseFloat(localStorage.getItem("greenzone_usd_rate")) || 124;
+        window.profitMargin = parseFloat(localStorage.getItem("greenzone_profit_margin")) || 15; 
+        window.commissionMargin = parseFloat(localStorage.getItem("greenzone_commission_margin")) || 5; 
+        window.isRateLocked = localStorage.getItem("greenzone_lock_rate") === "true";
+        window.isProfitLocked = localStorage.getItem("greenzone_lock_profit") === "true";
+        window.isCommissionLocked = localStorage.getItem("greenzone_lock_commission") === "true";
+        window.uploadedParsedProducts = [];
+
+        let db = null;
+        let auth = null;
+        let user = null;
+        let isCloudAvailable = false;
+
+        // Container payload used to estimate how many SFT fit in one 20GP (Tiles only; override per model with "Container load m²")
+        const CONTAINER_PAYLOAD_KG = 26000;
+        function containerSftFor(p, cat) {
+            if (parseFloat(p.containerSqm) > 0) return parseFloat(p.containerSqm) * 10.7639;
+            if (cat && cat.layout === "commod") {
+                return (parseFloat(p.qty) || 0) * (parseFloat(p.wM) || 0) * (parseFloat(p.lM) || 0) * 10.7639;
+            }
+            if (cat && cat.layout === "pbc") {
+                return (parseFloat(p.qty) || 0) * (parseFloat(p.sqm) || 0) * 10.7639;
+            }
+            if (cat && cat.layout === "tiles") {
+                const nb = parseFloat(p.nwBox), pb = parseFloat(p.pcsBox), s = parseFloat(p.sqm);
+                if (nb > 0 && pb > 0 && s > 0) return Math.floor(CONTAINER_PAYLOAD_KG / nb) * pb * s * 10.7639;
+            }
+            return 0;
+        }
+
+        // Per-SFT price build-up. Tiles & Commod: freight spread over container SFT, customs on (FOB + freight).
+        // Every other category keeps its original formula.
+        // Category-level Customs VAT & TAX % and Import TAX % (set in the box on each category page).
+        // If the category value was never set, each model keeps its own saved rate.
+        window.effCustomsRate = function(p, cat) {
+            if (cat && typeof cat.customsRate === "number") return cat.customsRate;
+            return parseFloat(p.customTaxRate || 67.50);
+        };
+        window.importEnabled = function(cat) {
+            if (!cat) return false;
+            if (cat.importTaxEnabled !== undefined) return !!cat.importTaxEnabled;
+            return cat.layout === "commod";   // Commod Tiles always had Import TAX, so it stays ticked there
+        };
+        window.effImportRate = function(p, cat) {
+            if (cat && typeof cat.importTaxRate === "number") return cat.importTaxRate;
+            const r = parseFloat(p.importTaxRate);
+            return isNaN(r) ? 60 : r;
+        };
+
+        // Per-SFT price build-up. Tiles, Commod & PBC: freight spread over container SFT, customs on (FOB + freight).
+        // Every other category keeps its original formula. Import TAX is added only when ticked for the category.
+        window.calcPricing = function(p, cat) {
+            const pM = parseFloat(window.profitMargin) || 0;
+            const cM = parseFloat(window.commissionMargin) || 0;
+            const fobSft = (parseFloat(p.priceSqm) || 0) / 10.7639;
+            const rate = effCustomsRate(p, cat) / 100;
+            const impOn = importEnabled(cat);
+            const impRate = effImportRate(p, cat) / 100;
+            const transport = parseFloat(p.transportCost || 0.40);
+            const newCalc = cat && (cat.layout === "tiles" || cat.layout === "commod" || cat.layout === "pbc");
+            let freightSft = 0, importTaxSft = 0, customsSft, base;
+            if (newCalc) {
+                const cSft = containerSftFor(p, cat);
+                freightSft = cSft > 0 ? (parseFloat(p.freightCost || 1100) / cSft) : 0;
+                customsSft = (fobSft + freightSft) * rate;
+                if (impOn) importTaxSft = (fobSft + freightSft) * impRate;
+                base = fobSft + freightSft + customsSft + importTaxSft + transport;
+            } else {
+                customsSft = fobSft * rate;
+                if (impOn) importTaxSft = fobSft * impRate;
+                base = fobSft + customsSft + importTaxSft + transport;
+            }
+            const profit = base * (pM / 100);
+            const commission = base * (cM / 100);
+            return { fobSft, freightSft, customsSft, importTaxSft, transport, base, profit, commission, final: base + profit + commission };
+        };
+
+        // Tiles: rows of the same product (same NO. / name / color / thickness) are shown together, one line per size
+        window.groupTiles = function(products, filterFn) {
+            const map = new Map();
+            (products || []).forEach((p, idx) => {
+                if (filterFn && !filterFn(p)) return;
+                const key = [p.no, p.name, p.color, p.thickness].join("|");
+                if (!map.has(key)) map.set(key, []);
+                map.get(key).push({ p, idx });
+            });
+            return Array.from(map.values()).map(rows => ({ rows }));
+        };
+        window.catCountLabel = function(cat) {
+            if (cat && cat.layout === "tiles") return groupTiles(cat.products).length + " Products";
+            return (cat.products ? cat.products.length : 0) + " Models";
+        };
+
+        function formatDualCurrency(usdVal, unit = 'SFT', styleVariant = 'normal') {
+            const bdtVal = usdVal * window.usdRate;
+            const bdtFormatted = bdtVal.toFixed(2);
+            const usdFormatted = usdVal.toFixed(2);
+
+            let bdtClass = "text-slate-900 font-extrabold text-xs block leading-snug pdf-text-main";
+            if (styleVariant === 'profit') {
+                bdtClass = "text-amber-900 font-extrabold text-xs block leading-snug pdf-text-main";
+            } else if (styleVariant === 'commission') {
+                bdtClass = "text-indigo-900 font-extrabold text-xs block leading-snug pdf-text-main";
+            } else if (styleVariant === 'final') {
+                bdtClass = "text-emerald-950 font-black text-xs block leading-snug pdf-text-main";
+            }
+
+            return `
+                <div class="inline-block text-center w-full">
+                    <div class="${bdtClass}">BDT ${bdtFormatted} / ${unit}</div>
+                    <div class="text-[10px] text-slate-600 font-mono font-bold leading-tight pdf-text-sub">$${usdFormatted}</div>
+                </div>
+            `;
+        }
+
+        async function initFirebase() {
+            if (!firebaseConfig) {
+                const localData = localStorage.getItem("greenzone_pricing_data");
+                if (localData) {
+                    try { 
+                        const parsed = JSON.parse(localData); 
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            window.categoryData = migrateCategories(parsed);
+                        }
+                    } catch(e){}
+                }
+                renderCurrentView();
+                return;
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (currentUser) => {
+                    if (currentUser) {
+                        user = currentUser;
+                        isCloudAvailable = true;
+                        subscribeToDatabase();
+                    }
+                });
+            } catch (err) {
+                const localData = localStorage.getItem("greenzone_pricing_data");
+                if (localData) {
+                    try { 
+                        const parsed = JSON.parse(localData); 
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            window.categoryData = migrateCategories(parsed);
+                        }
+                    } catch(e){}
+                }
+                renderCurrentView();
+            }
+        }
+
+        function subscribeToDatabase() {
+            if (!db || !user) return;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'pricing_data', 'main');
+
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists() && docSnap.data()?.categories) {
+                    window.categoryData = migrateCategories(docSnap.data().categories);
+                    if (docSnap.data().usdRate !== undefined) window.usdRate = docSnap.data().usdRate;
+                    if (docSnap.data().profitMargin !== undefined) window.profitMargin = docSnap.data().profitMargin;
+                    if (docSnap.data().commissionMargin !== undefined) window.commissionMargin = docSnap.data().commissionMargin;
+                } else {
+                    saveDataToStorage();
+                }
+                renderCurrentView();
+            });
+        }
+
+        async function saveDataToStorage() {
+            localStorage.setItem("greenzone_pricing_data", JSON.stringify(window.categoryData));
+            localStorage.setItem("commod_seeded", "1");
+            localStorage.setItem("pbc_seeded", "1");
+            localStorage.setItem("greenzone_usd_rate", window.usdRate);
+            localStorage.setItem("greenzone_profit_margin", window.profitMargin);
+            localStorage.setItem("greenzone_commission_margin", window.commissionMargin);
+            localStorage.setItem("greenzone_lock_rate", window.isRateLocked);
+            localStorage.setItem("greenzone_lock_profit", window.isProfitLocked);
+            localStorage.setItem("greenzone_lock_commission", window.isCommissionLocked);
+
+            if (isCloudAvailable && db && user) {
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'pricing_data', 'main');
+                    await setDoc(docRef, {
+                        categories: window.categoryData,
+                        usdRate: window.usdRate,
+                        profitMargin: window.profitMargin,
+                        commissionMargin: window.commissionMargin,
+                        updatedAt: new Date().toISOString()
+                    }, { merge: true });
+                } catch (e) {}
+            }
+        }
+
+        window.saveDataToStorage = saveDataToStorage;
+
+        window.openSettingsModal = function() { document.getElementById("settingsModal").classList.remove("hidden"); };
+        window.closeSettingsModal = function() { document.getElementById("settingsModal").classList.add("hidden"); };
+
+        window.exportDataBackup = function() {
+            const dataToExport = {
+                categories: window.categoryData,
+                usdRate: window.usdRate,
+                profitMargin: window.profitMargin,
+                commissionMargin: window.commissionMargin,
+                exportedAt: new Date().toISOString()
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToExport, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `ASK_INVESTMENT_Pricing_Backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        };
+
+        window.importDataBackup = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (imported && imported.categories) {
+                        window.categoryData = migrateCategories(imported.categories);
+                        if (imported.usdRate !== undefined) window.usdRate = imported.usdRate;
+                        if (imported.profitMargin !== undefined) window.profitMargin = imported.profitMargin;
+                        if (imported.commissionMargin !== undefined) window.commissionMargin = imported.commissionMargin;
+                        saveDataToStorage();
+                        renderCurrentView();
+                        alert("Data backup successfully restored!");
+                        closeSettingsModal();
+                    } else { alert("Invalid backup file format!"); }
+                } catch (err) { alert("Failed to parse backup file."); }
+            };
+            reader.readAsText(file);
+        };
+
+        window.resetDataToDefault = function() {
+            if (confirm("Reset all data to default original list?")) {
+                window.categoryData = defaultCategories;
+                saveDataToStorage();
+                renderCurrentView();
+                closeSettingsModal();
+            }
+        };
+
+        // A category matches when its name OR any model no. / product name inside it matches
+        window.catMatchesQuery = function(cat, q) {
+            if (!q) return true;
+            if (String(cat.name).toLowerCase().includes(q)) return true;
+            return (cat.products || []).some(p => [p.model, p.name, p.desc, p.color].some(v => v !== undefined && v !== null && String(v).toLowerCase().includes(q)));
+        };
+
+        window.renderFrontCategoryGrid = function() {
+            const grid = document.getElementById("frontCategoryGrid");
+            if (!grid) return;
+            grid.innerHTML = "";
+            const query = (document.getElementById("frontHomeSearchInput")?.value || "").trim().toLowerCase();
+
+            window.categoryData.forEach((cat) => {
+                if (!catMatchesQuery(cat, query)) return;
+                const card = document.createElement("div");
+                card.className = "premium-card rounded-3xl p-6 flex flex-col justify-between cursor-pointer group hover:border-amber-400/50 transition-all";
+                card.onclick = () => {
+                    openFrontCategoryDetail(cat.id);
+                    // if the person searched by model no., carry the search into the category so the model is right there
+                    const fs = document.getElementById("frontSearchInput");
+                    if (fs) { fs.value = (query && !String(cat.name).toLowerCase().includes(query)) ? query : ""; renderFrontPageTable(); }
+                };
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-5">
+                            <div class="w-12 h-12 rounded-2xl bg-sky-50 group-hover:bg-[#002B49] text-[#002B49] group-hover:text-amber-400 flex items-center justify-center transition-all duration-300 shadow-sm">
+                                <i class="fa-solid fa-layer-group text-lg"></i>
+                            </div>
+                            <span class="text-[11px] font-mono bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-extrabold border border-slate-200">${catCountLabel(cat)}</span>
+                        </div>
+                        <h3 class="text-base font-black text-slate-900 group-hover:text-[#002B49] transition-colors leading-snug">${cat.name}</h3>
+                        <p class="text-xs text-slate-400 mt-1.5 font-medium">Click to view models and per SFT pricing.</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
+                        <span class="text-xs font-black text-sky-700 group-hover:text-[#002B49] group-hover:translate-x-1 transition-all flex items-center gap-1.5">
+                            Browse Collection <i class="fa-solid fa-arrow-right text-[10px] text-amber-500"></i>
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        };
+
+        window.filterFrontCategories = function() { renderFrontCategoryGrid(); };
+
+        window.renderBackCategoryGrid = function() {
+            const grid = document.getElementById("backCategoryGrid");
+            if (!grid) return;
+            grid.innerHTML = "";
+            const query = (document.getElementById("backHomeSearchInput")?.value || "").trim().toLowerCase();
+
+            window.categoryData.forEach((cat) => {
+                if (!catMatchesQuery(cat, query)) return;
+                const card = document.createElement("div");
+                card.className = "bg-white border border-slate-200 hover:border-sky-500 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-sm hover:shadow-md cursor-pointer relative";
+                card.innerHTML = `
+                    <div onclick="openBackCategoryDetail('${cat.id}')">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#002B49] text-slate-700 group-hover:text-amber-400 flex items-center justify-center transition-all shadow-sm">
+                                <i class="fa-solid fa-folder-tree text-sm"></i>
+                            </div>
+                            <span class="text-[11px] font-mono bg-sky-50 text-sky-800 px-2.5 py-1 rounded-full font-bold border border-sky-100">${catCountLabel(cat)}</span>
+                        </div>
+                        <h3 class="text-sm font-black text-slate-900 group-hover:text-sky-700 transition">${cat.name}</h3>
+                    </div>
+                    <div class="flex items-center justify-end gap-2 pt-4 mt-4 border-t border-slate-100 no-print">
+                        <button onclick="event.stopPropagation(); editCategoryName('${cat.id}')" title="Rename Category" class="p-1.5 text-slate-400 hover:text-sky-700 rounded-lg hover:bg-sky-50 transition"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="event.stopPropagation(); deleteCategory('${cat.id}')" title="Delete Category" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        };
+
+        window.filterCategoriesBackHome = function() { renderBackCategoryGrid(); };
+
+        window.showFrontPageHome = function() {
+            window.activeView = "front";
+            window.activeFrontSubView = "home";
+            document.getElementById("frontPageView").classList.remove("hidden");
+            document.getElementById("backPageView").classList.add("hidden");
+            document.getElementById("frontHomeSubView").classList.remove("hidden");
+            document.getElementById("frontDetailSubView").classList.add("hidden");
+            document.getElementById("navFrontBtn").className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-[#002B49] text-white shadow-md border border-[#002B49]";
+            document.getElementById("navBackBtn").className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+            renderFrontCategoryGrid();
+        };
+
+        window.openFrontCategoryDetail = function(catId) {
+            window.activeCategoryId = catId;
+            window.activeFrontSubView = "detail";
+            document.getElementById("frontHomeSubView").classList.add("hidden");
+            document.getElementById("frontDetailSubView").classList.remove("hidden");
+            const catObj = window.categoryData.find(c => c.id === catId);
+            if(catObj) document.getElementById("frontDetailCatTitle").innerText = catObj.name;
+            renderFrontPageTable();
+        };
+
+        window.showBackPageHome = function() {
+            window.activeView = "back";
+            window.activeBackSubView = "home";
+            document.getElementById("frontPageView").classList.add("hidden");
+            document.getElementById("backPageView").classList.remove("hidden");
+            document.getElementById("backHomeSubView").classList.remove("hidden");
+            document.getElementById("backDetailSubView").classList.add("hidden");
+            document.getElementById("navFrontBtn").className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+            document.getElementById("navBackBtn").className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-[#002B49] text-white shadow-md border border-[#002B49]";
+            renderBackCategoryGrid();
+        };
+
+        window.openBackCategoryDetail = function(catId) {
+            window.activeCategoryId = catId;
+            window.activeBackSubView = "detail";
+            document.getElementById("backHomeSubView").classList.add("hidden");
+            document.getElementById("backDetailSubView").classList.remove("hidden");
+            const catObj = window.categoryData.find(c => c.id === catId);
+            if(catObj) document.getElementById("backDetailCategoryTitle").innerText = `Category: ${catObj.name}`;
+            initRateAndProfitUI();
+            initFrontColumnCheckboxes();
+            renderBackDetailTable();
+        };
+
+        function renderCurrentView() {
+            if (window.activeView === "front") {
+                if (window.activeFrontSubView === "home") renderFrontCategoryGrid();
+                else renderFrontPageTable();
+            } else {
+                if (window.activeBackSubView === "home") renderBackCategoryGrid();
+                else { initRateAndProfitUI(); initFrontColumnCheckboxes(); renderBackDetailTable(); }
+            }
+        }
+
+        window.initRateAndProfitUI = function() {
+            document.getElementById("usdRateInput").value = window.usdRate;
+            document.getElementById("profitMarginInput").value = window.profitMargin;
+            document.getElementById("commissionMarginInput").value = window.commissionMargin;
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (cat) {
+                const first = (cat.products || [])[0] || {};
+                document.getElementById("customsRateInput").value = typeof cat.customsRate === "number" ? cat.customsRate : parseFloat(first.customTaxRate || 67.50);
+                document.getElementById("importRateInput").value = typeof cat.importTaxRate === "number" ? cat.importTaxRate : (isNaN(parseFloat(first.importTaxRate)) ? 60 : parseFloat(first.importTaxRate));
+                document.getElementById("importTaxToggle").checked = importEnabled(cat);
+            }
+            applyLockUIState();
+        };
+
+        window.applyLockUIState = function() {
+            const usdInput = document.getElementById("usdRateInput");
+            const profitInput = document.getElementById("profitMarginInput");
+            const commissionInput = document.getElementById("commissionMarginInput");
+
+            if (window.isRateLocked) {
+                usdInput.setAttribute("readonly", "true");
+                document.getElementById("lockRateIcon").className = "fa-solid fa-lock text-emerald-800";
+            } else {
+                usdInput.removeAttribute("readonly");
+                document.getElementById("lockRateIcon").className = "fa-solid fa-lock-open text-slate-600";
+            }
+
+            if (window.isProfitLocked) {
+                profitInput.setAttribute("readonly", "true");
+                document.getElementById("lockProfitIcon").className = "fa-solid fa-lock text-amber-800";
+            } else {
+                profitInput.removeAttribute("readonly");
+                document.getElementById("lockProfitIcon").className = "fa-solid fa-lock-open text-slate-600";
+            }
+
+            if (window.isCommissionLocked) {
+                commissionInput.setAttribute("readonly", "true");
+                document.getElementById("lockCommissionIcon").className = "fa-solid fa-lock text-indigo-800";
+            } else {
+                commissionInput.removeAttribute("readonly");
+                document.getElementById("lockCommissionIcon").className = "fa-solid fa-lock-open text-slate-600";
+            }
+
+            // Customs VAT & TAX and Import TAX locks are saved per category
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const customsInput = document.getElementById("customsRateInput");
+            const importInput = document.getElementById("importRateInput");
+            if (cat && customsInput && importInput) {
+                if (cat.customsLocked) {
+                    customsInput.setAttribute("readonly", "true");
+                    document.getElementById("lockCustomsIcon").className = "fa-solid fa-lock text-sky-800";
+                } else {
+                    customsInput.removeAttribute("readonly");
+                    document.getElementById("lockCustomsIcon").className = "fa-solid fa-lock-open text-slate-600";
+                }
+                if (cat.importLocked) {
+                    importInput.setAttribute("readonly", "true");
+                    document.getElementById("lockImportIcon").className = "fa-solid fa-lock text-rose-800";
+                } else {
+                    importInput.removeAttribute("readonly");
+                    document.getElementById("lockImportIcon").className = "fa-solid fa-lock-open text-slate-600";
+                }
+                document.getElementById("importTaxBox").style.opacity = importEnabled(cat) ? "1" : "0.55";
+            }
+        };
+
+        window.toggleCustomsLock = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (!cat) return;
+            cat.customsLocked = !cat.customsLocked; saveDataToStorage(); applyLockUIState();
+        };
+        window.toggleImportLock = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (!cat) return;
+            cat.importLocked = !cat.importLocked; saveDataToStorage(); applyLockUIState();
+        };
+        window.updateCustomsRate = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (!cat || cat.customsLocked) return;
+            const val = parseFloat(document.getElementById("customsRateInput").value);
+            if (!isNaN(val) && val >= 0) { cat.customsRate = val; saveDataToStorage(); renderBackDetailTable(); }
+        };
+        window.updateImportRate = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (!cat || cat.importLocked) return;
+            const val = parseFloat(document.getElementById("importRateInput").value);
+            if (!isNaN(val) && val >= 0) { cat.importTaxRate = val; saveDataToStorage(); renderBackDetailTable(); }
+        };
+        window.toggleImportTax = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (!cat) return;
+            cat.importTaxEnabled = document.getElementById("importTaxToggle").checked;
+            saveDataToStorage(); applyLockUIState(); renderBackDetailTable();
+        };
+
+        window.toggleRateLock = function() { window.isRateLocked = !window.isRateLocked; saveDataToStorage(); applyLockUIState(); };
+        window.toggleProfitLock = function() { window.isProfitLocked = !window.isProfitLocked; saveDataToStorage(); applyLockUIState(); };
+        window.toggleCommissionLock = function() { window.isCommissionLocked = !window.isCommissionLocked; saveDataToStorage(); applyLockUIState(); };
+
+        window.updateUsdRate = function() {
+            if (window.isRateLocked) return;
+            const val = parseFloat(document.getElementById("usdRateInput").value);
+            if (!isNaN(val) && val > 0) { window.usdRate = val; saveDataToStorage(); renderBackDetailTable(); }
+        };
+
+        window.updateProfitMargin = function() {
+            if (window.isProfitLocked) return;
+            const val = parseFloat(document.getElementById("profitMarginInput").value);
+            if (!isNaN(val) && val >= 0) { window.profitMargin = val; saveDataToStorage(); renderBackDetailTable(); }
+        };
+
+        window.updateCommissionMargin = function() {
+            if (window.isCommissionLocked) return;
+            const val = parseFloat(document.getElementById("commissionMarginInput").value);
+            if (!isNaN(val) && val >= 0) { window.commissionMargin = val; saveDataToStorage(); renderBackDetailTable(); }
+        };
+
+        // The "Select columns to display" box was removed from the Back Page; any saved columnConfig is still honoured on the Front Page.
+        window.initFrontColumnCheckboxes = function() {};
+
+        window.renderBackDetailTable = function(isPdf = false) {
+            const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const tbody = document.getElementById("backDetailTableBody");
+            const thead = document.getElementById("backTableHead");
+            if (!tbody || !thead) return;
+            tbody.innerHTML = "";
+
+            if (currentCat && currentCat.layout === "tiles") { renderTilesBackTable(currentCat, isPdf); return; }
+            if (currentCat && currentCat.layout === "commod") { renderCommodBackTable(currentCat, isPdf); return; }
+            if (currentCat && currentCat.layout === "pbc") { renderPbcBackTable(currentCat, isPdf); return; }
+            if (currentCat && currentCat.layout === "auto") { renderAutoBackTable(currentCat, isPdf); return; }
+
+            const imp = importEnabled(currentCat);
+            thead.innerHTML = `
+                <tr>
+                    <th class="py-3 px-2 text-center align-middle w-8">#</th>
+                    <th class="py-3 px-3 text-left align-middle min-w-[130px]">PRODUCT NAME</th>
+                    <th class="py-3 px-2 text-center align-middle w-24">MODEL NO.</th>
+                    <th class="py-3 px-2 text-center align-middle w-20">1 PCS SQM</th>
+                    <th class="py-3 px-2 text-center align-middle w-20">MOQ M2</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px]">EXW/SQM</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px]">EXW/SFT</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[100px]">FREIGHT COST</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px]">CUSTOMS, VAT, TAX</th>
+                    ${imp ? '<th class="py-3 px-2 text-center align-middle min-w-[100px]">IMPORT TAX</th>' : ''}
+                    <th class="py-3 px-2 text-center align-middle min-w-[100px]">TRANSPORT COST</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px]">BASE / SFT</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px] text-amber-300 font-black bg-amber-950/40">PROFIT</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[110px] text-indigo-300 font-black bg-indigo-950/40">COMMISSION</th>
+                    <th class="py-3 px-2 text-center align-middle min-w-[130px] text-emerald-300 font-black bg-emerald-950/50">PRODUCT PRICE</th>
+                    ${!isPdf ? '<th class="py-3 px-2 text-center align-middle no-print w-20">Actions</th>' : ''}
+                </tr>
+            `;
+
+            if (!currentCat || !currentCat.products || currentCat.products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${(isPdf ? 14 : 15) + (imp ? 1 : 0)}" class="p-8 text-center text-slate-400 font-medium">No models added in this category yet.</td></tr>`;
+                return;
+            }
+
+            const query = (document.getElementById("backDetailSearchInput")?.value || "").toLowerCase();
+            const pMargin = parseFloat(window.profitMargin) || 0;
+            const cMargin = parseFloat(window.commissionMargin) || 0;
+
+            let count = 0;
+            currentCat.products.forEach((p, idx) => {
+                if (!isPdf && query && !p.model.toLowerCase().includes(query) && !p.name.toLowerCase().includes(query)) return;
+                count++;
+
+                const priceSqmUsd = parseFloat(p.priceSqm) || 0;
+                const cr = calcPricing(p, currentCat);
+                const baseSftUsd = cr.fobSft;
+                const computedBaseSft = cr.base, profitUsd = cr.profit, commissionUsd = cr.commission, finalSftUsd = cr.final;
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-slate-500 font-medium">${count}</td>
+                    <td class="py-2.5 px-3 text-left align-middle font-bold text-slate-900">${p.name}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono font-black text-sky-800"><span class="bg-sky-50 text-sky-900 px-2 py-0.5 rounded border border-sky-100">${p.model}</span></td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-slate-600">${parseFloat(p.sqm || 0).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-slate-600">${parseFloat(p.moq || 0).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(priceSqmUsd, 'm²')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-sky-50/30">${formatDualCurrency(baseSftUsd, 'SFT')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.freightCost || 1100).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effCustomsRate(p, currentCat).toFixed(2)}%</td>
+                    ${imp ? `<td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effImportRate(p, currentCat).toFixed(2)}%<span class="block text-[10px] text-slate-500 font-semibold">$${cr.importTaxSft.toFixed(3)} / SFT</span></td>` : ""}
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.transportCost || 0.40).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(computedBaseSft, 'SFT')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-amber-50/70">${formatDualCurrency(profitUsd, 'SFT', 'profit')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-indigo-50/70">${formatDualCurrency(commissionUsd, 'SFT', 'commission')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-emerald-100/80 border-l border-r border-emerald-200">${formatDualCurrency(finalSftUsd, 'SFT', 'final')}</td>
+                    ${!isPdf ? `
+                    <td class="py-2.5 px-2 text-center align-middle no-print">
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="editProductModal(${idx})" class="p-1.5 text-slate-400 hover:text-sky-700 transition" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${idx})" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>` : ''}
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+
+        window.renderTilesBackTable = function(cat, isPdf) {
+            const tbody = document.getElementById("backDetailTableBody");
+            const thead = document.getElementById("backTableHead");
+            const th = (t, extra = "") => `<th class="py-3 px-2 text-center align-middle ${extra}">${t}</th>`;
+            const imp = importEnabled(cat);
+            thead.innerHTML = `
+                <tr>
+                    ${th("NO.", "w-8")}
+                    <th class="py-3 px-3 text-left align-middle min-w-[130px]">NAME</th>
+                    ${th("COLOR", "min-w-[80px]")}
+                    ${th("THICKNESS (MM)", "min-w-[70px]")}
+                    ${th("DESCRIPTION (MM)", "min-w-[90px]")}
+                    ${th("NW/M² (KG)", "min-w-[60px]")}
+                    ${th("M²/PCS", "min-w-[55px]")}
+                    ${th("NW/PCS (KG)", "min-w-[60px]")}
+                    ${th("PCS/BOX", "min-w-[55px]")}
+                    ${th("NW/BOX (KG)", "min-w-[65px]")}
+                    ${th("PRICE/M² (FOB)", "min-w-[110px]")}
+                    ${th("FREIGHT COST", "min-w-[90px]")}
+                    ${th("CUSTOMS, VAT, TAX", "min-w-[100px]")}
+                    ${imp ? th("IMPORT TAX", "min-w-[90px]") : ""}
+                    ${th("TRANSPORT COST", "min-w-[90px]")}
+                    ${th("BASE / SFT", "min-w-[110px]")}
+                    ${th("PROFIT", "min-w-[110px] text-amber-300 font-black bg-amber-950/40")}
+                    ${th("COMMISSION", "min-w-[110px] text-indigo-300 font-black bg-indigo-950/40")}
+                    ${th("PRODUCT PRICE", "min-w-[130px] text-emerald-300 font-black bg-emerald-950/50")}
+                    ${!isPdf ? '<th class="py-3 px-2 text-center align-middle no-print w-20">Actions</th>' : ''}
+                </tr>
+            `;
+
+            if (!cat.products || cat.products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${(isPdf ? 18 : 19) + (imp ? 1 : 0)}" class="p-8 text-center text-slate-400 font-medium">No models added in this category yet.</td></tr>`;
+                return;
+            }
+
+            const query = (document.getElementById("backDetailSearchInput")?.value || "").toLowerCase();
+            const num = (v, d) => (v === undefined || v === null || v === "" || isNaN(parseFloat(v))) ? "-" : parseFloat(v).toFixed(d);
+            const tdc = "py-2.5 px-2 text-center align-middle font-mono text-slate-600";
+            const sub = '<span class="block text-[10px] text-slate-500 font-semibold">';
+            const groups = groupTiles(cat.products, p => isPdf || !query || String(p.model).toLowerCase().includes(query) || String(p.name).toLowerCase().includes(query));
+
+            groups.forEach(g => {
+                const n = g.rows.length;
+                g.rows.forEach(({ p, idx }, ri) => {
+                    const priceSqmUsd = parseFloat(p.priceSqm) || 0;
+                    const cr = calcPricing(p, cat);   // freight spread per SFT, customs on FOB + freight
+
+                    const tr = document.createElement("tr");
+                    tr.className = "hover:bg-slate-50 transition border-b border-slate-100" + (ri === 0 ? " border-t-2 border-t-slate-300" : "");
+                    const groupCells = ri === 0 ? `
+                        <td rowspan="${n}" class="${tdc} text-slate-500 font-medium bg-white">${p.no ?? ""}</td>
+                        <td rowspan="${n}" class="py-2.5 px-3 text-left align-middle font-bold text-slate-900 bg-white">${p.name}</td>
+                        <td rowspan="${n}" class="${tdc} bg-white">${p.color || ""}</td>
+                        <td rowspan="${n}" class="${tdc} bg-white">${p.thickness || ""}</td>` : "";
+                    tr.innerHTML = `
+                        ${groupCells}
+                        <td class="py-2.5 px-2 text-center align-middle font-mono font-black text-sky-800"><span class="bg-sky-50 text-sky-900 px-2 py-0.5 rounded border border-sky-100">${p.desc || p.model}</span></td>
+                        <td class="${tdc}">${num(p.nwM2, 1)}</td>
+                        <td class="${tdc}">${num(p.sqm, 2)}</td>
+                        <td class="${tdc}">${num(p.nwPcs, 3)}</td>
+                        <td class="${tdc}">${num(p.pcsBox, 0)}</td>
+                        <td class="${tdc}">${num(p.nwBox, 1)}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(priceSqmUsd, 'm²')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.freightCost || 1100).toFixed(2)}${sub}$${cr.freightSft.toFixed(3)} / SFT</span></td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effCustomsRate(p, cat).toFixed(2)}%${sub}$${cr.customsSft.toFixed(3)} / SFT</span></td>
+                        ${imp ? `<td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effImportRate(p, cat).toFixed(2)}%<span class="block text-[10px] text-slate-500 font-semibold">$${cr.importTaxSft.toFixed(3)} / SFT</span></td>` : ""}
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.transportCost || 0.40).toFixed(2)}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(cr.base, 'SFT')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-amber-50/70">${formatDualCurrency(cr.profit, 'SFT', 'profit')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-indigo-50/70">${formatDualCurrency(cr.commission, 'SFT', 'commission')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-emerald-100/80 border-l border-r border-emerald-200">${formatDualCurrency(cr.final, 'SFT', 'final')}</td>
+                        ${!isPdf ? `
+                        <td class="py-2.5 px-2 text-center align-middle no-print">
+                            <div class="flex items-center justify-center gap-1">
+                                <button onclick="editProductModal(${idx})" class="p-1.5 text-slate-400 hover:text-sky-700 transition" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteProduct(${idx})" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>` : ''}
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+        };
+
+        window.openTilesModal = function(p) {
+            const v = (k, d = "") => (p && p[k] !== undefined && p[k] !== null) ? p[k] : d;
+            const cls = "w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium";
+            const f = (id, label, type, val, step) => `<div><label class="block font-bold text-slate-800 mb-1">${label}</label><input type="${type}" ${step ? `step="${step}"` : ""} id="${id}" value="${val}" class="${cls}"></div>`;
+            document.getElementById("modalInputs").innerHTML = `
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("tNo", "NO.", "number", v("no", ""))}
+                    <div class="col-span-2">${f("tName", "Name", "text", v("name", "")).replace("<div>", "<div>")}</div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("tColor", "Color", "text", v("color", "As per catalogue"))}
+                    ${f("tThick", "Thickness (mm)", "text", v("thickness", "2.5-3.5"))}
+                    ${f("tDesc", "Description (mm)", "text", v("desc", "600*1200mm"))}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("tNwM2", "NW/m² (kg)", "number", v("nwM2", ""), "0.01")}
+                    ${f("tM2Pcs", "m²/PCS", "number", v("sqm", ""), "0.01")}
+                    ${f("tNwPcs", "NW/PCS (kg)", "number", v("nwPcs", ""), "0.001")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("tPcsBox", "PCS/BOX", "number", v("pcsBox", ""), "1")}
+                    ${f("tNwBox", "NW/BOX (kg)", "number", v("nwBox", ""), "0.1")}
+                    ${f("tPrice", "Price/m² USD (FOB)", "number", v("priceSqm", ""), "0.01")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("tCont", "Container load m² (optional)", "number", v("containerSqm", ""), "1")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+                    ${f("pFreight", "Freight (USD)", "number", v("freightCost", 1100), "0.01")}
+                    ${f("pCustomTax", "Customs/VAT/Tax %", "number", v("customTaxRate", 67.50), "0.01")}
+                    ${f("pTransport", "Transport ($)", "number", v("transportCost", 0.40), "0.01")}
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.readTilesForm = function() {
+            const g = id => document.getElementById(id).value;
+            const n = id => parseFloat(g(id));
+            const desc = g("tDesc").trim();
+            return {
+                no: parseInt(g("tNo")) || 0,
+                name: g("tName").trim(), color: g("tColor").trim(), thickness: g("tThick").trim(),
+                desc: desc, model: desc,
+                nwM2: n("tNwM2"), sqm: n("tM2Pcs"), nwPcs: n("tNwPcs"),
+                pcsBox: n("tPcsBox"), moq: n("tPcsBox"), nwBox: n("tNwBox"),
+                priceSqm: n("tPrice") || 0,
+                w: 0, t: 0, l: 0, pricePc: 0,
+                containerSqm: parseFloat(g("tCont")) || 0,
+                freightCost: n("pFreight"), customTaxRate: n("pCustomTax"), transportCost: n("pTransport")
+            };
+        };
+
+
+        window.renderCommodBackTable = function(cat, isPdf) {
+            const tbody = document.getElementById("backDetailTableBody");
+            const thead = document.getElementById("backTableHead");
+            const th = (t, extra = "") => `<th class="py-3 px-2 text-center align-middle ${extra}">${t}</th>`;
+            const imp = importEnabled(cat);
+            thead.innerHTML = `
+                <tr>
+                    <th class="py-3 px-3 text-left align-middle min-w-[140px]">COMMODITIES</th>
+                    ${th("THICKNESS", "min-w-[90px]")}
+                    ${th("SIZE", "min-w-[110px]")}
+                    ${th("WEIGHT KG/PCS", "min-w-[90px]")}
+                    ${th("QUANTITY PCS/20GP", "min-w-[90px]")}
+                    ${th("FOB QINGDAO USD/PCS", "min-w-[110px]")}
+                    ${th("TOTAL AMOUNT", "min-w-[110px]")}
+                    ${th("FREIGHT COST", "min-w-[90px]")}
+                    ${th("CUSTOMS, VAT, TAX", "min-w-[100px]")}
+                    ${imp ? th("IMPORT TAX", "min-w-[90px]") : ""}
+                    ${th("TRANSPORT COST", "min-w-[90px]")}
+                    ${th("BASE / SFT", "min-w-[110px]")}
+                    ${th("PROFIT", "min-w-[110px] text-amber-300 font-black bg-amber-950/40")}
+                    ${th("COMMISSION", "min-w-[110px] text-indigo-300 font-black bg-indigo-950/40")}
+                    ${th("PRODUCT PRICE", "min-w-[130px] text-emerald-300 font-black bg-emerald-950/50")}
+                    ${!isPdf ? '<th class="py-3 px-2 text-center align-middle no-print w-20">Actions</th>' : ''}
+                </tr>
+            `;
+            if (!cat.products || cat.products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${(isPdf ? 15 : 16) + (imp ? 1 : 0)}" class="p-8 text-center text-slate-400 font-medium">No models added in this category yet.</td></tr>`;
+                return;
+            }
+            const query = (document.getElementById("backDetailSearchInput")?.value || "").toLowerCase();
+            const pMargin = parseFloat(window.profitMargin) || 0;
+            const cMargin = parseFloat(window.commissionMargin) || 0;
+            const tdc = "py-2.5 px-2 text-center align-middle font-mono text-slate-600";
+            let prevKey = "";
+
+            cat.products.forEach((p, idx) => {
+                if (!isPdf && query && !String(p.model).toLowerCase().includes(query) && !String(p.name).toLowerCase().includes(query)) return;
+
+                const pricePc = parseFloat(p.pricePc) || 0;
+                const areaM2 = (parseFloat(p.wM) || 0) * (parseFloat(p.lM) || 0);
+                const priceSqmUsd = areaM2 > 0 ? pricePc / areaM2 : 0;
+                p.priceSqm = priceSqmUsd; p.sqm = parseFloat(areaM2.toFixed(4));   // keeps the Front Page in sync
+
+                const cr = calcPricing(p, cat);
+                const computedBaseSft = cr.base, profitUsd = cr.profit, commissionUsd = cr.commission, finalSftUsd = cr.final;
+                const totalAmount = pricePc * (parseFloat(p.qty) || 0);
+                const money = v => "US$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 text-left align-middle font-bold text-slate-900">${p.name}</td>
+                    <td class="${tdc}">${parseFloat(p.thickness).toFixed(1)}MM±0.02</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono font-black text-sky-800"><span class="bg-sky-50 text-sky-900 px-2 py-0.5 rounded border border-sky-100">${p.wM}Mx${p.lM}M</span></td>
+                    <td class="${tdc}">${p.weight}KG±0.2</td>
+                    <td class="${tdc}">${p.qty}</td>
+                    <td class="${tdc} font-bold text-slate-800">$${pricePc.toFixed(2)}</td>
+                    <td class="${tdc}">${money(totalAmount)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.freightCost || 1100).toFixed(2)}<span class="block text-[10px] text-slate-500 font-semibold">$${cr.freightSft.toFixed(3)} / SFT</span></td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effCustomsRate(p, cat).toFixed(2)}%<span class="block text-[10px] text-slate-500 font-semibold">$${cr.customsSft.toFixed(3)} / SFT</span></td>
+                    ${imp ? `<td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effImportRate(p, cat).toFixed(2)}%<span class="block text-[10px] text-slate-500 font-semibold">$${cr.importTaxSft.toFixed(3)} / SFT</span></td>` : ""}
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.transportCost || 0.40).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(computedBaseSft, 'SFT')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-amber-50/70">${formatDualCurrency(profitUsd, 'SFT', 'profit')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-indigo-50/70">${formatDualCurrency(commissionUsd, 'SFT', 'commission')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-emerald-100/80 border-l border-r border-emerald-200">${formatDualCurrency(finalSftUsd, 'SFT', 'final')}</td>
+                    ${!isPdf ? `
+                    <td class="py-2.5 px-2 text-center align-middle no-print">
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="editProductModal(${idx})" class="p-1.5 text-slate-400 hover:text-sky-700 transition" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${idx})" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>` : ''}
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.openCommodModal = function(p) {
+            const v = (k, d = "") => (p && p[k] !== undefined && p[k] !== null) ? p[k] : d;
+            const cls = "w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium";
+            const f = (id, label, type, val, step) => `<div><label class="block font-bold text-slate-800 mb-1">${label}</label><input type="${type}" ${step ? `step="${step}"` : ""} id="${id}" value="${val}" required class="${cls}"></div>`;
+            document.getElementById("modalInputs").innerHTML = `
+                ${f("cName", "Commodities", "text", v("name", "Normal hot stamping film"))}
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("cThick", "Thickness (mm)", "number", v("thickness", 2.0), "0.1")}
+                    ${f("cW", "Width (M)", "number", v("wM", 1.22), "0.01")}
+                    ${f("cL", "Length (M)", "number", v("lM", 2.44), "0.01")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("cWeight", "Weight KG/PCS", "number", v("weight", ""), "0.01")}
+                    ${f("cQty", "Quantity PCS/20GP", "number", v("qty", ""), "1")}
+                    ${f("cPrice", "FOB USD/PCS", "number", v("pricePc", ""), "0.01")}
+                </div>
+                <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-slate-100">
+                    ${f("pFreight", "Freight (USD)", "number", v("freightCost", 1100), "0.01")}
+                    ${f("pCustomTax", "Customs/VAT/Tax %", "number", v("customTaxRate", 67.50), "0.01")}
+                    ${f("pImportTax", "Import Tax %", "number", v("importTaxRate", 60), "0.01")}
+                    ${f("pTransport", "Transport ($)", "number", v("transportCost", 0.40), "0.01")}
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.readCommodForm = function() {
+            const n = id => parseFloat(document.getElementById(id).value);
+            const wM = n("cW"), lM = n("cL"), th = n("cThick"), price = n("cPrice");
+            const area = wM * lM;
+            return {
+                name: document.getElementById("cName").value.trim(),
+                thickness: th, wM: wM, lM: lM,
+                model: th.toFixed(1) + "mm · " + wM + "Mx" + lM + "M",
+                weight: n("cWeight"), qty: n("cQty"), moq: n("cQty"), pricePc: price,
+                sqm: parseFloat(area.toFixed(4)), priceSqm: area > 0 ? price / area : 0,
+                w: 0, t: 0, l: 0,
+                importTaxRate: n("pImportTax"),
+                freightCost: n("pFreight"), customTaxRate: n("pCustomTax"), transportCost: n("pTransport")
+            };
+        };
+
+        // ===== AUTO CATEGORY FROM A QUOTATION PICTURE =====
+        const AI_MODEL = "claude-sonnet-5-5";
+        const AC_PROMPT = `You are reading a supplier price quotation (picture or PDF pages). Copy its product price table exactly as printed.
+Return ONLY one JSON object (no markdown, no commentary) with this shape:
+{
+  "categoryName": "short name for this product group",
+  "currency": "USD, RMB, ... as printed on the quotation",
+  "priceUnit": "sqm" | "sft" | "pc",
+  "columns": [ { "key": "short_lowercase_id", "label": "header exactly as printed" } ],
+  "nameKey": "key of the column holding the product name, or null",
+  "modelKey": "key of the column that identifies the model / size / variant, or null",
+  "priceKey": "key of the column holding the unit price (FOB/EXW), or null",
+  "sqmKey": "key of the column giving area of ONE piece in square metres, or null",
+  "rows": [ { "<key>": <value>, ... } ]
+}
+Rules:
+- columns: every column of the table, in the printed order, with the printed header wording. Keys must be unique.
+- priceUnit: what the unit price is per (square metre = "sqm", square foot = "sft", piece/sheet/board = "pc").
+- Every row object must use the column keys. Numbers as plain numbers (no currency symbols or units). Text exactly as printed.
+- If a cell is merged or blank because it repeats the cell above (for example a product name spanning several size rows), repeat that value in every row.
+- Skip title lines, notes, subtotal/total rows and footers. Include every product row, across all pages, in order.`;
+        window.acFiles = [];
+        window.acResult = null;
+        const $ = id => document.getElementById(id);
+        window.escHtml = v => String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        window.acNum = v => { const n = parseFloat(String(v ?? "").replace(/[^0-9.\-]/g, "")); return isNaN(n) ? 0 : n; };
+
+        window.acSetError = function(msg) {
+            const e = $("acError");
+            e.textContent = msg || "";
+            e.classList.toggle("hidden", !msg);
+        };
+        window.acShowStep = function(n) {
+            [1, 2, 3].forEach(i => $("acStep" + i).classList.toggle("hidden", i !== n));
+            $("acTitle").textContent = n === 1 ? "Add Product Category" : n === 2 ? "Add Category - from Picture" : "Check the table before creating";
+            acSetError("");
+        };
+        window.addNewCategoryModal = function() {
+            window.acFiles = []; window.acResult = null;
+            $("acKeyInput").value = localStorage.getItem("ask_ai_api_key") || "";
+            $("acCatNameHint").value = "";
+            acRenderFiles();
+            acShowStep(1);
+            $("autoCatModal").classList.remove("hidden");
+        };
+        window.closeAutoCat = function() { $("autoCatModal").classList.add("hidden"); };
+        window.acChoose = function(mode) {
+            if (mode === "manual") { closeAutoCat(); startManualCategory(); }
+            else acShowStep(2);
+        };
+
+        const acReadB64 = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(f); });
+        const acResizeImage = f => new Promise((res, rej) => {
+            const r = new FileReader();
+            r.onload = () => {
+                const img = new Image();
+                img.onload = () => {
+                    const sc = Math.min(1, 2000 / Math.max(img.width, img.height));
+                    const w = Math.round(img.width * sc), h = Math.round(img.height * sc);
+                    const c = document.createElement("canvas"); c.width = w; c.height = h;
+                    const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+                    res(c.toDataURL("image/jpeg", 0.88));
+                };
+                img.onerror = rej; img.src = r.result;
+            };
+            r.onerror = rej; r.readAsDataURL(f);
+        });
+
+        window.acHandleFiles = async function(ev) {
+            const files = Array.from(ev.target.files || []);
+            ev.target.value = "";
+            acSetError("");
+            for (const f of files) {
+                if (window.acFiles.length >= 8) { acSetError("Maximum 8 ta picture/PDF add kora jay."); break; }
+                try {
+                    if (f.type === "application/pdf") {
+                        if (f.size > 20 * 1024 * 1024) { acSetError(f.name + " onek boro (max 20MB)."); continue; }
+                        window.acFiles.push({ name: f.name, kind: "pdf", b64: await acReadB64(f) });
+                    } else if (f.type.startsWith("image/")) {
+                        const url = await acResizeImage(f);
+                        window.acFiles.push({ name: f.name, kind: "image", b64: url.split(",")[1], preview: url });
+                    }
+                } catch (e) { acSetError(f.name + " porte parlam na. JPG/PNG/PDF diye try koro."); }
+            }
+            acRenderFiles();
+        };
+        window.acRemoveFile = function(i) { window.acFiles.splice(i, 1); acRenderFiles(); };
+        window.acRenderFiles = function() {
+            $("acFileList").innerHTML = window.acFiles.map((f, i) => `
+                <div class="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                    ${f.kind === "image" ? `<img src="${f.preview}" class="w-full h-24 object-cover">` : `<div class="w-full h-24 flex items-center justify-center text-rose-500 text-3xl"><i class="fa-solid fa-file-pdf"></i></div>`}
+                    <div class="px-2 py-1 text-[10px] font-semibold text-slate-600 truncate">${escHtml(f.name)}</div>
+                    <button onclick="acRemoveFile(${i})" title="Remove" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-white/90 text-slate-600 hover:text-rose-600 shadow flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
+                </div>`).join("");
+        };
+
+        function acParseJson(text) {
+            const a = text.indexOf("{"), b = text.lastIndexOf("}");
+            if (a === -1 || b <= a) throw new Error("Answer-e table paoa jay nai.");
+            return JSON.parse(text.slice(a, b + 1));
+        }
+        function acNormalize(raw) {
+            if (!raw || !Array.isArray(raw.columns) || !raw.columns.length) throw new Error("Table-er column paoa jay nai.");
+            const used = new Set();
+            const columns = raw.columns.map((c, i) => {
+                let key = String((c && c.key) || ("col" + (i + 1))); const base = key; let n = 2;
+                while (used.has(key)) key = base + "_" + (n++);
+                used.add(key);
+                return { key, label: String((c && (c.label || c.key)) || ("Column " + (i + 1))), _orig: c && c.key };
+            });
+            const keyMap = k => { const f = columns.find(c => c._orig === k || c.key === k); return f ? f.key : null; };
+            const rows = (Array.isArray(raw.rows) ? raw.rows : []).filter(r => r && typeof r === "object").map(r => {
+                const o = {};
+                raw.columns.forEach((c, i) => { const v = r[c.key]; o[columns[i].key] = (v === undefined || v === null) ? "" : v; });
+                return o;
+            });
+            if (!rows.length) throw new Error("Kono product row paoa jay nai.");
+            columns.forEach(c => delete c._orig);
+            return {
+                categoryName: String(raw.categoryName || "").trim(),
+                currency: String(raw.currency || "").trim(),
+                priceUnit: ["sqm", "sft", "pc"].includes(raw.priceUnit) ? raw.priceUnit : "sqm",
+                columns, rows,
+                nameKey: keyMap(raw.nameKey), modelKey: keyMap(raw.modelKey), priceKey: keyMap(raw.priceKey), sqmKey: keyMap(raw.sqmKey)
+            };
+        }
+
+        window.acReadQuotation = async function() {
+            acSetError("");
+            if (!window.acFiles.length) { acSetError("Age ekta picture ba PDF add koro."); return; }
+            const key = $("acKeyInput").value.trim();
+            if (!key) { acSetError("Anthropic API key dao."); return; }
+            localStorage.setItem("ask_ai_api_key", key);
+            const btn = $("acReadBtn"), txt = $("acReadBtnText");
+            btn.disabled = true; btn.classList.add("opacity-70"); txt.textContent = "Reading quotation... (30-60 sec)";
+            try {
+                const content = window.acFiles.map(f => f.kind === "pdf"
+                    ? { type: "document", source: { type: "base64", media_type: "application/pdf", data: f.b64 } }
+                    : { type: "image", source: { type: "base64", media_type: "image/jpeg", data: f.b64 } });
+                const hint = $("acCatNameHint").value.trim();
+                content.push({ type: "text", text: AC_PROMPT + (hint ? `\nUse exactly this as categoryName: ${hint}` : "") });
+                const res = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+                    body: JSON.stringify({ model: AI_MODEL, max_tokens: 16000, messages: [{ role: "user", content }] })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error((data && data.error && data.error.message) || ("HTTP " + res.status));
+                const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n");
+                const result = acNormalize(acParseJson(text));
+                if (hint) result.categoryName = hint;
+                window.acResult = result;
+                acRenderPreview();
+                acShowStep(3);
+            } catch (e) {
+                acSetError("Quotation porte parlam na: " + e.message);
+            } finally {
+                btn.disabled = false; btn.classList.remove("opacity-70"); txt.textContent = "Read Quotation";
+            }
+        };
+
+        window.acRenderPreview = function() {
+            const r = window.acResult;
+            const colOpts = sel => `<option value="">- none -</option>` + r.columns.map(c => `<option value="${escHtml(c.key)}" ${c.key === sel ? "selected" : ""}>${escHtml(c.label)}</option>`).join("");
+            const cls = "w-full bg-slate-50 border border-slate-300 p-2 rounded-xl text-slate-900 font-medium text-xs";
+            const lbl = "block font-bold text-slate-800 mb-1 text-[11px]";
+            const shown = r.rows.slice(0, 60);
+            $("acPreview").innerHTML = `
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div class="col-span-2 sm:col-span-3"><label class="${lbl}">Category name</label><input type="text" id="acCatName" value="${escHtml(r.categoryName)}" class="${cls}"></div>
+                    <div><label class="${lbl}">Product name column</label><select id="acNameKey" class="${cls}">${colOpts(r.nameKey)}</select></div>
+                    <div><label class="${lbl}">Model / size column</label><select id="acModelKey" class="${cls}">${colOpts(r.modelKey)}</select></div>
+                    <div><label class="${lbl}">Price column</label><select id="acPriceKey" class="${cls}">${colOpts(r.priceKey)}</select></div>
+                    <div>
+                        <label class="${lbl}">Price is per</label>
+                        <select id="acUnit" onchange="acToggleArea()" class="${cls}">
+                            <option value="sqm" ${r.priceUnit === "sqm" ? "selected" : ""}>m² (SQM)</option>
+                            <option value="sft" ${r.priceUnit === "sft" ? "selected" : ""}>SFT</option>
+                            <option value="pc" ${r.priceUnit === "pc" ? "selected" : ""}>PC (piece)</option>
+                        </select>
+                    </div>
+                    <div><label class="${lbl}">1 PCS SQM column</label><select id="acSqmKey" onchange="acToggleArea()" class="${cls}">${colOpts(r.sqmKey)}</select></div>
+                    <div id="acAreaWrap" class="hidden"><label class="${lbl}">Area per piece (m²)</label><input type="number" step="0.0001" id="acArea" placeholder="e.g. 0.72" class="${cls}"></div>
+                </div>
+                <p class="text-[11px] text-slate-500 font-medium">${r.rows.length} ta row paoa gese${r.currency ? " · quotation-er currency: <b>" + escHtml(r.currency) + "</b> (price-ta USD hishebe dhora hobe)" : ""}. Upor-er column mapping thik na hole bodle nao.</p>
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl max-h-72">
+                    <table class="w-full text-left text-[11px] text-slate-800">
+                        <thead class="bg-slate-900 text-slate-200 font-bold sticky top-0"><tr>${r.columns.map(c => `<th class="p-2 whitespace-nowrap">${escHtml(c.label)}</th>`).join("")}</tr></thead>
+                        <tbody class="divide-y divide-slate-100">${shown.map(row => `<tr>${r.columns.map(c => `<td class="p-2 whitespace-nowrap">${escHtml(row[c.key])}</td>`).join("")}</tr>`).join("")}</tbody>
+                    </table>
+                </div>
+                ${r.rows.length > shown.length ? `<p class="text-[11px] text-slate-400">Preview-te prothom ${shown.length} ta row dekhano hoyeche, create korle shob row add hobe.</p>` : ""}
+            `;
+            acToggleArea();
+        };
+        window.acToggleArea = function() {
+            const wrap = $("acAreaWrap"); if (!wrap) return;
+            wrap.classList.toggle("hidden", !($("acUnit").value === "pc" && !$("acSqmKey").value));
+        };
+
+        window.acBuildProduct = function(cat, data) {
+            const price = acNum(cat.priceKey ? data[cat.priceKey] : 0);
+            const sqm = cat.sqmKey ? acNum(data[cat.sqmKey]) : (parseFloat(cat.areaPerPc) || 0);
+            let priceSqm = price;
+            if (cat.priceUnit === "sft") priceSqm = price * 10.7639;
+            else if (cat.priceUnit === "pc") priceSqm = sqm > 0 ? price / sqm : 0;
+            return {
+                name: (cat.nameKey ? String(data[cat.nameKey] ?? "").trim() : "") || cat.name,
+                model: cat.modelKey ? String(data[cat.modelKey] ?? "").trim() : "",
+                sqm, moq: 0, priceSqm, pricePc: cat.priceUnit === "pc" ? price : 0,
+                w: 0, t: 0, l: 0,
+                freightCost: 1100, customTaxRate: 67.50, transportCost: 0.40,
+                data
+            };
+        };
+
+        window.acCreate = function() {
+            const r = window.acResult; if (!r) return;
+            const name = $("acCatName").value.trim();
+            if (!name) { acSetError("Category-r nam dao."); return; }
+            let id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "category";
+            const base = id; let n = 2;
+            while (window.categoryData.some(c => c.id === id)) id = base + "-" + (n++);
+            const cat = {
+                id, name, layout: "auto",
+                columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false },
+                columns: r.columns,
+                nameKey: $("acNameKey").value || null, modelKey: $("acModelKey").value || null,
+                priceKey: $("acPriceKey").value || null, sqmKey: $("acSqmKey").value || null,
+                priceUnit: $("acUnit").value, areaPerPc: parseFloat($("acArea").value) || 0,
+                products: []
+            };
+            if (!cat.priceKey) { acSetError("Price column select koro, na hole price hishab hobe na."); return; }
+            if (cat.priceUnit === "pc" && !cat.sqmKey && !(cat.areaPerPc > 0)) { acSetError("Price per PC hole '1 PCS SQM' column select koro ba area per piece (m²) dao."); return; }
+            cat.products = r.rows.map(row => acBuildProduct(cat, row));
+            window.categoryData.push(cat);
+            window.activeCategoryId = id;
+            saveDataToStorage();
+            closeAutoCat();
+            showBackPageHome();
+            openBackCategoryDetail(id);
+        };
+
+        window.openAutoModal = function(p) {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const d = (p && p.data) || {};
+            document.getElementById("modalInputs").innerHTML = `<div class="grid grid-cols-2 gap-2.5">` + cat.columns.map((c, i) => `
+                <div><label class="block font-bold text-slate-800 mb-1">${escHtml(c.label)}</label><input type="text" id="ax_${i}" value="${escHtml(d[c.key])}" class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>`).join("") + `</div>`;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+        window.readAutoForm = function() {
+            const cat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const data = {};
+            cat.columns.forEach((c, i) => { data[c.key] = document.getElementById("ax_" + i).value.trim(); });
+            const built = acBuildProduct(cat, data);
+            if (window.activeFormAction === "editProduct") {
+                const old = cat.products[window.editingIndex] || {};
+                ["freightCost", "customTaxRate", "transportCost"].forEach(k => { if (old[k] !== undefined) built[k] = old[k]; });
+            }
+            return built;
+        };
+
+        window.renderAutoBackTable = function(cat, isPdf) {
+            const tbody = document.getElementById("backDetailTableBody");
+            const thead = document.getElementById("backTableHead");
+            const imp = importEnabled(cat);
+            const th = (t, extra = "") => `<th class="py-3 px-2 text-center align-middle ${extra}">${t}</th>`;
+            thead.innerHTML = `
+                <tr>
+                    ${th("#", "w-8")}
+                    ${cat.columns.map(c => th(escHtml(c.label), "min-w-[80px]")).join("")}
+                    ${th("FOB / SFT", "min-w-[110px]")}
+                    ${th("CUSTOMS, VAT, TAX", "min-w-[100px]")}
+                    ${imp ? th("IMPORT TAX", "min-w-[90px]") : ""}
+                    ${th("TRANSPORT COST", "min-w-[90px]")}
+                    ${th("BASE / SFT", "min-w-[110px]")}
+                    ${th("PROFIT", "min-w-[110px] text-amber-300 font-black bg-amber-950/40")}
+                    ${th("COMMISSION", "min-w-[110px] text-indigo-300 font-black bg-indigo-950/40")}
+                    ${th("PRODUCT PRICE", "min-w-[130px] text-emerald-300 font-black bg-emerald-950/50")}
+                    ${!isPdf ? '<th class="py-3 px-2 text-center align-middle no-print w-20">Actions</th>' : ''}
+                </tr>`;
+            if (!cat.products || cat.products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${cat.columns.length + 11}" class="p-8 text-center text-slate-400 font-medium">No models added in this category yet.</td></tr>`;
+                return;
+            }
+            const query = (document.getElementById("backDetailSearchInput")?.value || "").toLowerCase();
+            const tdc = "py-2.5 px-2 text-center align-middle font-mono text-slate-600";
+            const sub = '<span class="block text-[10px] text-slate-500 font-semibold">';
+            let count = 0;
+            cat.products.forEach((p, idx) => {
+                const hay = Object.values(p.data || {}).join(" ").toLowerCase() + " " + String(p.name).toLowerCase() + " " + String(p.model).toLowerCase();
+                if (!isPdf && query && !hay.includes(query)) return;
+                count++;
+                const cr = calcPricing(p, cat);
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="${tdc} font-medium">${count}</td>
+                    ${cat.columns.map(c => `<td class="${tdc}">${escHtml((p.data || {})[c.key])}</td>`).join("")}
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-sky-50/30">${formatDualCurrency(cr.fobSft, 'SFT')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effCustomsRate(p, cat).toFixed(2)}%${sub}$${cr.customsSft.toFixed(3)} / SFT</span></td>
+                    ${imp ? `<td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effImportRate(p, cat).toFixed(2)}%${sub}$${cr.importTaxSft.toFixed(3)} / SFT</span></td>` : ""}
+                    <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.transportCost || 0.40).toFixed(2)}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(cr.base, 'SFT')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-amber-50/70">${formatDualCurrency(cr.profit, 'SFT', 'profit')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-indigo-50/70">${formatDualCurrency(cr.commission, 'SFT', 'commission')}</td>
+                    <td class="py-2.5 px-2 text-center align-middle font-mono bg-emerald-100/80 border-l border-r border-emerald-200">${formatDualCurrency(cr.final, 'SFT', 'final')}</td>
+                    ${!isPdf ? `
+                    <td class="py-2.5 px-2 text-center align-middle no-print">
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="editProductModal(${idx})" class="p-1.5 text-slate-400 hover:text-sky-700 transition" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteProduct(${idx})" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>` : ''}`;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.renderPbcBackTable = function(cat, isPdf) {
+            const tbody = document.getElementById("backDetailTableBody");
+            const thead = document.getElementById("backTableHead");
+            const th = (t, extra = "") => `<th class="py-3 px-2 text-center align-middle ${extra}">${t}</th>`;
+            const imp = importEnabled(cat);
+            thead.innerHTML = `
+                <tr>
+                    ${th("ITEM", "min-w-[90px]")}
+                    ${th("MODEL", "min-w-[100px]")}
+                    ${th("SERVICE LIFE", "min-w-[70px]")}
+                    ${th("WARRANTY", "min-w-[65px]")}
+                    ${th("MOQ/PCS", "min-w-[55px]")}
+                    ${th("G/METER", "min-w-[55px]")}
+                    ${th("CBM /BOX", "min-w-[55px]")}
+                    ${th("PCS /BOX", "min-w-[50px]")}
+                    ${th("TOTAL BOX", "min-w-[55px]")}
+                    ${th("QUANTITY PCS/40HQ", "min-w-[80px]")}
+                    ${th("INSTALL WIDTH (MM)", "min-w-[70px]")}
+                    ${th("LENGTH (M)", "min-w-[55px]")}
+                    ${th("FOB PRICE /PCS (40HQ)", "min-w-[85px]")}
+                    ${th("FREIGHT COST", "min-w-[90px]")}
+                    ${th("CUSTOMS, VAT, TAX", "min-w-[100px]")}
+                    ${imp ? th("IMPORT TAX", "min-w-[90px]") : ""}
+                    ${th("TRANSPORT COST", "min-w-[90px]")}
+                    ${th("BASE / SFT", "min-w-[110px]")}
+                    ${th("PROFIT", "min-w-[110px] text-amber-300 font-black bg-amber-950/40")}
+                    ${th("COMMISSION", "min-w-[110px] text-indigo-300 font-black bg-indigo-950/40")}
+                    ${th("PRODUCT PRICE", "min-w-[130px] text-emerald-300 font-black bg-emerald-950/50")}
+                    ${!isPdf ? '<th class="py-3 px-2 text-center align-middle no-print w-20">Actions</th>' : ''}
+                </tr>
+            `;
+            if (!cat.products || cat.products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${(isPdf ? 20 : 21) + (imp ? 1 : 0)}" class="p-8 text-center text-slate-400 font-medium">No models added in this category yet.</td></tr>`;
+                return;
+            }
+            const query = (document.getElementById("backDetailSearchInput")?.value || "").toLowerCase();
+            const tdc = "py-2.5 px-2 text-center align-middle font-mono text-slate-600";
+            const sub = '<span class="block text-[10px] text-slate-500 font-semibold">';
+            const groups = groupTiles(cat.products, p => isPdf || !query || String(p.model).toLowerCase().includes(query) || String(p.name).toLowerCase().includes(query));
+
+            groups.forEach(g => {
+                const n = g.rows.length;
+                g.rows.forEach(({ p, idx }, ri) => {
+                    // keep derived values in sync (area per piece, price per m²) so the Front Page matches
+                    const area = ((parseFloat(p.widthMm) || 0) / 1000) * (parseFloat(p.lengthM) || 0);
+                    const pricePc = parseFloat(p.pricePc) || 0;
+                    p.sqm = parseFloat(area.toFixed(4));
+                    p.priceSqm = area > 0 ? pricePc / area : 0;
+                    const cr = calcPricing(p, cat);
+
+                    const tr = document.createElement("tr");
+                    tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                    const itemCell = ri === 0 ? `<td rowspan="${n}" class="py-2.5 px-2 text-center align-middle font-bold text-slate-900 bg-white">${p.name}</td>` : "";
+                    tr.innerHTML = `
+                        ${itemCell}
+                        <td class="py-2.5 px-2 text-center align-middle font-mono font-black text-sky-800"><span class="bg-sky-50 text-sky-900 px-2 py-0.5 rounded border border-sky-100">${p.model}</span></td>
+                        <td class="${tdc}">${p.serviceLife || ""}</td>
+                        <td class="${tdc}">${p.warranty || ""}</td>
+                        <td class="${tdc}">${p.moqPcs ?? ""}</td>
+                        <td class="${tdc}">${p.gMeter ?? ""}</td>
+                        <td class="${tdc}">${p.cbmBox ?? ""}</td>
+                        <td class="${tdc}">${p.pcsBox ?? ""}</td>
+                        <td class="${tdc}">${p.totalBox ?? ""}</td>
+                        <td class="${tdc}">${p.qty ?? ""}</td>
+                        <td class="${tdc}">${p.widthMm ?? ""}</td>
+                        <td class="${tdc}">${p.lengthM ?? ""}M</td>
+                        <td class="${tdc} font-bold text-slate-800">$${pricePc.toFixed(2)}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.freightCost || 1100).toFixed(2)}${sub}$${cr.freightSft.toFixed(3)} / SFT</span></td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effCustomsRate(p, cat).toFixed(2)}%${sub}$${cr.customsSft.toFixed(3)} / SFT</span></td>
+                        ${imp ? `<td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">${effImportRate(p, cat).toFixed(2)}%<span class="block text-[10px] text-slate-500 font-semibold">$${cr.importTaxSft.toFixed(3)} / SFT</span></td>` : ""}
+                        <td class="py-2.5 px-2 text-center align-middle font-mono text-xs font-bold text-slate-700">$${parseFloat(p.transportCost || 0.40).toFixed(2)}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono">${formatDualCurrency(cr.base, 'SFT')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-amber-50/70">${formatDualCurrency(cr.profit, 'SFT', 'profit')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-indigo-50/70">${formatDualCurrency(cr.commission, 'SFT', 'commission')}</td>
+                        <td class="py-2.5 px-2 text-center align-middle font-mono bg-emerald-100/80 border-l border-r border-emerald-200">${formatDualCurrency(cr.final, 'SFT', 'final')}</td>
+                        ${!isPdf ? `
+                        <td class="py-2.5 px-2 text-center align-middle no-print">
+                            <div class="flex items-center justify-center gap-1">
+                                <button onclick="editProductModal(${idx})" class="p-1.5 text-slate-400 hover:text-sky-700 transition" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteProduct(${idx})" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>` : ''}
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+        };
+
+        window.openPbcModal = function(p) {
+            const v = (k, d = "") => (p && p[k] !== undefined && p[k] !== null) ? p[k] : d;
+            const cls = "w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium";
+            const f = (id, label, type, val, step) => `<div><label class="block font-bold text-slate-800 mb-1">${label}</label><input type="${type}" ${step ? `step="${step}"` : ""} id="${id}" value="${val}" required class="${cls}"></div>`;
+            document.getElementById("modalInputs").innerHTML = `
+                <div class="grid grid-cols-2 gap-2.5">
+                    ${f("bItem", "Item", "text", v("name", "WPC wall panel"))}
+                    ${f("bModel", "Model", "text", v("model", ""))}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("bLife", "Service Life", "text", v("serviceLife", "20 years"))}
+                    ${f("bWarranty", "Warranty", "text", v("warranty", "1 year"))}
+                    ${f("bMoq", "MOQ/PCS", "number", v("moqPcs", 300), "1")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("bGm", "G/METER", "number", v("gMeter", ""), "0.01")}
+                    ${f("bCbm", "CBM/BOX", "number", v("cbmBox", ""), "0.001")}
+                    ${f("bPcsBox", "PCS/BOX", "number", v("pcsBox", ""), "1")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    ${f("bTotalBox", "TOTAL BOX", "number", v("totalBox", ""), "1")}
+                    ${f("bQty", "QUANTITY PCS/40HQ", "number", v("qty", ""), "1")}
+                    ${f("bPrice", "FOB PRICE USD/PCS", "number", v("pricePc", ""), "0.01")}
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    ${f("bWidth", "INSTALL WIDTH (MM)", "number", v("widthMm", ""), "1")}
+                    ${f("bLen", "LENGTH (M)", "number", v("lengthM", 2.9), "0.01")}
+                </div>
+                <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+                    ${f("pFreight", "Freight (USD / container)", "number", v("freightCost", 1100), "0.01")}
+                    ${f("pCustomTax", "Customs/VAT/Tax %", "number", v("customTaxRate", 67.50), "0.01")}
+                    ${f("pTransport", "Transport ($)", "number", v("transportCost", 0.40), "0.01")}
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.readPbcForm = function() {
+            const g = id => document.getElementById(id).value;
+            const n = id => parseFloat(g(id));
+            const widthMm = n("bWidth"), lengthM = n("bLen"), price = n("bPrice");
+            const area = (widthMm / 1000) * lengthM;
+            return {
+                name: g("bItem").trim(), model: g("bModel").trim(),
+                serviceLife: g("bLife").trim(), warranty: g("bWarranty").trim(), moqPcs: n("bMoq"), moq: n("bMoq"),
+                gMeter: n("bGm"), cbmBox: n("bCbm"), pcsBox: n("bPcsBox"), totalBox: n("bTotalBox"), qty: n("bQty"),
+                widthMm: widthMm, lengthM: lengthM, pricePc: price,
+                sqm: parseFloat(area.toFixed(4)), priceSqm: area > 0 ? price / area : 0,
+                w: 0, t: 0, l: 0,
+                freightCost: n("pFreight"), customTaxRate: n("pCustomTax"), transportCost: n("pTransport")
+            };
+        };
+
+        window.renderFrontTilesRows = function(cat, query, config, tbody) {
+            const groups = groupTiles(cat.products, p => !query || String(p.model).toLowerCase().includes(query) || String(p.name).toLowerCase().includes(query));
+            let html = "";
+            groups.forEach((g, gi) => {
+                const n = g.rows.length;
+                g.rows.forEach(({ p }, ri) => {
+                    const cr = calcPricing(p, cat);
+                    const finalSft = cr.final, finalSqm = cr.final * 10.7639;
+                    let h = `<tr class="hover:bg-sky-50/50 transition-colors ${ri === 0 ? "border-t-2 border-slate-200" : ""}">`;
+                    if (ri === 0) {
+                        h += `<td rowspan="${n}" class="py-4 px-6 text-center font-mono text-slate-400 font-medium align-middle">${gi + 1}</td>
+                              <td rowspan="${n}" class="py-4 px-6 text-left font-bold text-slate-900 align-middle">${p.name}</td>`;
+                    }
+                    h += `<td class="py-4 px-6 text-center font-mono font-black text-sky-800 align-middle"><span class="bg-sky-100/70 text-sky-900 px-2.5 py-1 rounded-md border border-sky-200/60">${p.model}</span></td>`;
+                    if (config.dimensions) {
+                        if (cat.layout === "pbc") h += `<td class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${p.widthMm}mm × ${p.lengthM}M</td>`;
+                        else if (ri === 0) h += `<td rowspan="${n}" class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${p.thickness || '-'}</td>`;
+                    }
+                    if (config.sqm) h += `<td class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${parseFloat(p.sqm || 0).toFixed(2)}</td>`;
+                    if (config.sqmPrice) h += `<td class="py-4 px-6 text-center font-mono align-middle">${formatDualCurrency(finalSqm, 'm²')}</td>`;
+                    h += `<td class="py-4 px-6 text-center font-mono align-middle">
+                            <div class="bg-emerald-50 border border-emerald-300 px-3.5 py-1.5 rounded-xl inline-block w-full">${formatDualCurrency(finalSft, 'SFT', 'final')}</div>
+                          </td></tr>`;
+                    html += h;
+                });
+            });
+            tbody.innerHTML = html || `<tr><td colspan="10" class="p-8 text-center text-slate-400">No models found.</td></tr>`;
+        };
+
+        window.renderFrontPageTable = function() {
+            const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const tbody = document.getElementById("frontTableBody");
+            const thead = document.getElementById("frontTableHead");
+            const catTitle = document.getElementById("frontSelectedCatName");
+            if (!tbody || !thead) return;
+
+            tbody.innerHTML = "";
+            if (!currentCat) {
+                if (catTitle) catTitle.innerText = "No Category Selected";
+                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-slate-400">Please select a category above.</td></tr>`;
+                return;
+            }
+
+            if (catTitle) catTitle.innerText = `${currentCat.name}`;
+            const query = (document.getElementById("frontSearchInput")?.value || "").toLowerCase();
+            const isTiles = currentCat.layout === "tiles" || currentCat.layout === "commod" || currentCat.layout === "pbc";
+            const config = currentCat.columnConfig || { dimensions: false, sqm: false, moq: false, sqmPrice: false };
+
+            let headHTML = `
+                <tr>
+                    <th class="py-4 px-6 text-center w-16 align-middle">#</th>
+                    <th class="py-4 px-6 text-left align-middle">Product Name</th>
+                    <th class="py-4 px-6 text-center align-middle">Model No.</th>`;
+
+            if (config.dimensions) headHTML += `<th class="py-4 px-6 text-center align-middle">${currentCat.layout === "pbc" ? "Width × Length" : isTiles ? "Thickness (mm)" : "Dimensions (mm)"}</th>`;
+            if (config.sqm) headHTML += `<th class="py-4 px-6 text-center align-middle">1 PCS SQM</th>`;
+            if (config.moq && !isTiles) headHTML += `<th class="py-4 px-6 text-center align-middle">MOQ m²</th>`;
+            if (config.sqmPrice) headHTML += `<th class="py-4 px-6 text-center align-middle">Price / SQM</th>`;
+
+            headHTML += `<th class="py-4 px-6 text-center text-amber-400 font-black align-middle">PER SFT PRICE</th>
+                </tr>`;
+            thead.innerHTML = headHTML;
+
+            const pMargin = parseFloat(window.profitMargin) || 0;
+            const cMargin = parseFloat(window.commissionMargin) || 0;
+
+            if (currentCat.layout === "tiles" || currentCat.layout === "pbc") { renderFrontTilesRows(currentCat, query, config, tbody); return; }
+
+            let matchCount = 0;
+            currentCat.products.forEach((p) => {
+                if (query && !p.model.toLowerCase().includes(query) && !p.name.toLowerCase().includes(query)) return;
+                matchCount++;
+
+                const baseSftUsd = (parseFloat(p.priceSqm) || 0) / 10.7639;
+                const customTaxRate = parseFloat(p.customTaxRate || 67.50) / 100;
+                const transportUsd = parseFloat(p.transportCost || 0.40);
+                const computedBaseSft = baseSftUsd + (baseSftUsd * customTaxRate) + transportUsd;
+
+                const profitUsd = computedBaseSft * (pMargin / 100);
+                const commissionUsd = computedBaseSft * (cMargin / 100);
+                const finalUsdSft = calcPricing(p, currentCat).final;
+
+                const baseSqmUsd = parseFloat(p.priceSqm) || 0;
+                const profitSqmUsd = baseSqmUsd * (pMargin / 100);
+                const commissionSqmUsd = baseSqmUsd * (cMargin / 100);
+                const finalUsdSqm = isTiles ? (finalUsdSft * 10.7639) : (baseSqmUsd + profitSqmUsd + commissionSqmUsd);
+
+                let rowHTML = `
+                    <tr class="hover:bg-sky-50/50 transition-colors">
+                        <td class="py-4 px-6 text-center font-mono text-slate-400 font-medium align-middle">${matchCount}</td>
+                        <td class="py-4 px-6 text-left font-bold text-slate-900 align-middle">${p.name}</td>
+                        <td class="py-4 px-6 text-center font-mono font-black text-sky-800 align-middle"><span class="bg-sky-100/70 text-sky-900 px-2.5 py-1 rounded-md border border-sky-200/60">${p.model}</span></td>`;
+
+                if (config.dimensions) rowHTML += `<td class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${isTiles ? (p.thickness || '-') : (p.w + '×' + p.t + '×' + p.l)}</td>`;
+                if (config.sqm) rowHTML += `<td class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${parseFloat(p.sqm || 0).toFixed(2)}</td>`;
+                if (config.moq && !isTiles) rowHTML += `<td class="py-4 px-6 text-center font-mono text-xs text-slate-600 align-middle">${parseFloat(p.moq || 0).toFixed(2)}</td>`;
+                if (config.sqmPrice) rowHTML += `<td class="py-4 px-6 text-center font-mono align-middle">${formatDualCurrency(finalUsdSqm, 'm²')}</td>`;
+
+                rowHTML += `<td class="py-4 px-6 text-center font-mono align-middle">
+                            <div class="bg-emerald-50 border border-emerald-300 px-3.5 py-1.5 rounded-xl inline-block w-full">
+                                ${formatDualCurrency(finalUsdSft, 'SFT', 'final')}
+                            </div>
+                        </td>
+                    </tr>`;
+
+                tbody.innerHTML += rowHTML;
+            });
+        };
+
+        window.startManualCategory = function() {
+            window.activeFormAction = "addCategory";
+            window.uploadedParsedProducts = [];
+            document.getElementById("modalTitle").innerText = "Add Product Category";
+            document.getElementById("modalInputs").innerHTML = `
+                <div>
+                    <label class="block font-bold text-slate-800 mb-1">Category Name</label>
+                    <input type="text" id="catNameInput" required placeholder="e.g. Marble Composite Sheet" class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium">
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.editCategoryName = function(catId) {
+            const catObj = window.categoryData.find(c => c.id === catId);
+            if (!catObj) return;
+            const newName = prompt("Edit Category Name:", catObj.name);
+            if (newName && newName.trim() !== "") {
+                catObj.name = newName.trim();
+                saveDataToStorage();
+                renderCurrentView();
+            }
+        };
+
+        window.deleteCategory = function(catId) {
+            if (confirm("Are you sure you want to delete this category?")) {
+                window.categoryData = window.categoryData.filter(c => c.id !== catId);
+                if(window.activeCategoryId === catId && window.categoryData.length > 0) window.activeCategoryId = window.categoryData[0].id;
+                saveDataToStorage();
+                renderCurrentView();
+            }
+        };
+
+        window.addNewProductModal = function() {
+            window.activeFormAction = "addProduct";
+            document.getElementById("modalTitle").innerText = "Add New Model";
+            const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            if (currentCat && currentCat.layout === "tiles") { openTilesModal(null); return; }
+            if (currentCat && currentCat.layout === "commod") { openCommodModal(null); return; }
+            if (currentCat && currentCat.layout === "pbc") { openPbcModal(null); return; }
+            if (currentCat && currentCat.layout === "auto") { openAutoModal(null); return; }
+            document.getElementById("modalInputs").innerHTML = `
+                <div><label class="block font-bold text-slate-800 mb-1">Product Name</label><input type="text" id="pName" value="${currentCat ? currentCat.name : ''}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">Model No.</label><input type="text" id="pModel" placeholder="IT-D16" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">1 PCS SQM</label><input type="number" step="0.01" id="pSqm" value="0.72" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">Width</label><input type="number" id="pW" value="600" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Thick</label><input type="number" step="0.1" id="pT" value="2.5" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Length</label><input type="number" id="pL" value="1200" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">MOQ m²</label><input type="number" id="pMoq" value="200" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">EXW USD/SQM</label><input type="number" step="0.01" id="pPriceSqm" value="15.10" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">EXW USD/PC</label><input type="number" step="0.01" id="pPricePc" value="10.87" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+                    <div><label class="block font-bold text-slate-800 mb-1">Freight (USD)</label><input type="number" step="0.01" id="pFreight" value="1100" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Customs/VAT/Tax %</label><input type="number" step="0.01" id="pCustomTax" value="67.50" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Transport ($)</label><input type="number" step="0.01" id="pTransport" value="0.40" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.editProductModal = function(index) {
+            window.editingIndex = index;
+            window.activeFormAction = "editProduct";
+            document.getElementById("modalTitle").innerText = "Edit Model";
+            const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+            const p = currentCat.products[index];
+            if (currentCat.layout === "tiles") { openTilesModal(p); return; }
+            if (currentCat.layout === "commod") { openCommodModal(p); return; }
+            if (currentCat.layout === "pbc") { openPbcModal(p); return; }
+            if (currentCat.layout === "auto") { openAutoModal(p); return; }
+            document.getElementById("modalInputs").innerHTML = `
+                <div><label class="block font-bold text-slate-800 mb-1">Product Name</label><input type="text" id="pName" value="${p.name}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">Model No.</label><input type="text" id="pModel" value="${p.model}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">1 PCS SQM</label><input type="number" step="0.01" id="pSqm" value="${p.sqm}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">Width</label><input type="number" id="pW" value="${p.w}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Thick</label><input type="number" step="0.1" id="pT" value="${p.t}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Length</label><input type="number" id="pL" value="${p.l}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div><label class="block font-bold text-slate-800 mb-1">MOQ m²</label><input type="number" id="pMoq" value="${p.moq}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">EXW USD/SQM</label><input type="number" step="0.01" id="pPriceSqm" value="${p.priceSqm}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">EXW USD/PC</label><input type="number" step="0.01" id="pPricePc" value="${p.pricePc}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5 pt-2 border-t border-slate-100">
+                    <div><label class="block font-bold text-slate-800 mb-1">Freight (USD)</label><input type="number" step="0.01" id="pFreight" value="${p.freightCost || 1100}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Customs/VAT/Tax %</label><input type="number" step="0.01" id="pCustomTax" value="${p.customTaxRate || 67.50}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                    <div><label class="block font-bold text-slate-800 mb-1">Transport ($)</label><input type="number" step="0.01" id="pTransport" value="${p.transportCost || 0.40}" required class="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-xl text-slate-900 font-medium"></div>
+                </div>
+            `;
+            document.getElementById("modalOverlay").classList.remove("hidden");
+        };
+
+        window.deleteProduct = function(index) {
+            if (confirm("Delete this model?")) {
+                const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+                currentCat.products.splice(index, 1);
+                saveDataToStorage();
+                renderBackDetailTable();
+            }
+        };
+
+        window.closeModal = function() { document.getElementById("modalOverlay").classList.add("hidden"); };
+
+        window.handleFormSubmit = function(e) {
+            e.preventDefault();
+            if (window.activeFormAction === "addCategory") {
+                const name = document.getElementById("catNameInput").value.trim();
+                if (name) {
+                    const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    window.categoryData.push({ id, name, columnConfig: { dimensions: false, sqm: false, moq: false, sqmPrice: false }, products: [] });
+                    window.activeCategoryId = id;
+                    saveDataToStorage();
+                    renderCurrentView();
+                }
+            } else if (window.activeFormAction === "addProduct" || window.activeFormAction === "editProduct") {
+                const currentCat = window.categoryData.find(c => c.id === window.activeCategoryId);
+                const prodData = currentCat.layout === "auto" ? readAutoForm() : currentCat.layout === "tiles" ? readTilesForm() : currentCat.layout === "commod" ? readCommodForm() : currentCat.layout === "pbc" ? readPbcForm() : {
+                    name: document.getElementById("pName").value.trim(),
+                    model: document.getElementById("pModel").value.trim(),
+                    sqm: parseFloat(document.getElementById("pSqm").value),
+                    w: parseFloat(document.getElementById("pW").value),
+                    t: parseFloat(document.getElementById("pT").value),
+                    l: parseFloat(document.getElementById("pL").value),
+                    moq: parseFloat(document.getElementById("pMoq").value),
+                    priceSqm: parseFloat(document.getElementById("pPriceSqm").value),
+                    pricePc: parseFloat(document.getElementById("pPricePc").value),
+                    freightCost: parseFloat(document.getElementById("pFreight").value),
+                    customTaxRate: parseFloat(document.getElementById("pCustomTax").value),
+                    transportCost: parseFloat(document.getElementById("pTransport").value)
+                };
+                if (window.activeFormAction === "addProduct") currentCat.products.push(prodData);
+                else currentCat.products[window.editingIndex] = prodData;
+
+                saveDataToStorage();
+                renderBackDetailTable();
+            }
+            closeModal();
+        };
+
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateStr = document.getElementById("currentDateStr");
+            if (dateStr) dateStr.innerText = today;
+            showFrontPageHome();
+            initFirebase();
+        };
+    </script>
+</body>
+</html>
