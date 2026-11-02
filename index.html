@@ -71,6 +71,12 @@
     <!-- MAIN CONTAINER -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
 
+        <!-- PRINT ONLY HEADER (Front + Back): Logo + Company Name -->
+        <div class="print-only-header">
+            <img src="logo.jpg" alt="ASK INVESTMENT Logo" onerror="this.style.display='none'">
+            <span class="print-brand-name">ASK INVESTMENT <i class="print-brand-dot"></i></span>
+        </div>
+
         <!-- FRONT PAGE VIEW -->
         <div id="frontPageView" class="space-y-6">
             <div id="frontHomeSubView" class="space-y-8">
@@ -109,7 +115,7 @@
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                             <input type="text" id="frontSearchInput" oninput="renderFrontPageTable()" placeholder="Search model or name..." class="bg-white/10 border border-white/20 text-xs text-white placeholder-slate-400 pl-9 pr-3 py-3 rounded-2xl focus:outline-none focus:border-amber-400 focus:bg-white/20 transition w-full sm:w-60 font-medium">
                         </div>
-                        <button onclick="window.print()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-3 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
+                        <button onclick="printPage()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-3 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
                             <i class="fa-solid fa-print"></i> Print Sheet
                         </button>
                     </div>
@@ -170,7 +176,7 @@
                     <button onclick="showBackPageHome()" class="glass-back-btn inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl text-xs font-bold text-[#002B49] hover:text-sky-700 transition group">
                         <i class="fa-solid fa-arrow-left text-amber-500 group-hover:-translate-x-1 transition-transform"></i> Back to Categories
                     </button>
-                    <button onclick="window.print()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
+                    <button onclick="printPage()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2.5 transition shadow-lg shadow-amber-500/20">
                         <i class="fa-solid fa-print"></i> Print Sheet
                     </button>
                 </div>
@@ -788,16 +794,19 @@
             return (cat.products || []).some(p => [p.model, p.name, p.desc, p.color].some(v => v !== undefined && v !== null && String(v).toLowerCase().includes(q)));
         };
 
+        // Category colour palette (index -> .cat-c0 ... .cat-c5 in style.css)
+        window.catColorClass = function(i) { return "cat-c" + (i % 6); };
+
         window.renderFrontCategoryGrid = function() {
             const grid = document.getElementById("frontCategoryGrid");
             if (!grid) return;
             grid.innerHTML = "";
             const query = (document.getElementById("frontHomeSearchInput")?.value || "").trim().toLowerCase();
 
-            window.categoryData.forEach((cat) => {
+            window.categoryData.forEach((cat, ci) => {
                 if (!catMatchesQuery(cat, query)) return;
                 const card = document.createElement("div");
-                card.className = "premium-card rounded-3xl p-6 flex flex-col justify-between cursor-pointer group hover:border-amber-400/50 transition-all";
+                card.className = catColorClass(ci) + " premium-card rounded-3xl p-6 flex flex-col justify-between cursor-pointer group hover:border-amber-400/50 transition-all";
                 card.onclick = () => {
                     openFrontCategoryDetail(cat.id);
                     // if the person searched by model no., carry the search into the category so the model is right there
@@ -807,10 +816,10 @@
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between mb-5">
-                            <div class="w-12 h-12 rounded-2xl bg-sky-50 group-hover:bg-[#002B49] text-[#002B49] group-hover:text-amber-400 flex items-center justify-center transition-all duration-300 shadow-sm">
+                            <div class="cat-icon w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-sm">
                                 <i class="fa-solid fa-layer-group text-lg"></i>
                             </div>
-                            <span class="text-[11px] font-mono bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-extrabold border border-slate-200">${catCountLabel(cat)}</span>
+                            <span class="count-badge text-[11px] font-mono px-3 py-1 rounded-full font-extrabold">${catCountLabel(cat)}</span>
                         </div>
                         <h3 class="text-base font-black text-slate-900 group-hover:text-[#002B49] transition-colors leading-snug">${cat.name}</h3>
                         <p class="text-xs text-slate-400 mt-1.5 font-medium">Click to view models and per SFT pricing.</p>
@@ -833,17 +842,17 @@
             grid.innerHTML = "";
             const query = (document.getElementById("backHomeSearchInput")?.value || "").trim().toLowerCase();
 
-            window.categoryData.forEach((cat) => {
+            window.categoryData.forEach((cat, ci) => {
                 if (!catMatchesQuery(cat, query)) return;
                 const card = document.createElement("div");
-                card.className = "bg-white border border-slate-200 hover:border-sky-500 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-sm hover:shadow-md cursor-pointer relative";
+                card.className = catColorClass(ci) + " back-cat-card bg-white border border-slate-200 hover:border-sky-500 rounded-2xl p-5 flex flex-col justify-between transition-all group shadow-sm hover:shadow-md cursor-pointer relative";
                 card.innerHTML = `
                     <div onclick="openBackCategoryDetail('${cat.id}')">
                         <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#002B49] text-slate-700 group-hover:text-amber-400 flex items-center justify-center transition-all shadow-sm">
+                            <div class="cat-icon w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-sm">
                                 <i class="fa-solid fa-folder-tree text-sm"></i>
                             </div>
-                            <span class="text-[11px] font-mono bg-sky-50 text-sky-800 px-2.5 py-1 rounded-full font-bold border border-sky-100">${catCountLabel(cat)}</span>
+                            <span class="count-badge text-[11px] font-mono px-2.5 py-1 rounded-full font-bold">${catCountLabel(cat)}</span>
                         </div>
                         <h3 class="text-sm font-black text-slate-900 group-hover:text-sky-700 transition">${cat.name}</h3>
                     </div>
@@ -2091,6 +2100,20 @@ Rules:
             }
             closeModal();
         };
+
+        // Print: Front = A4 portrait, Back = A4 landscape (all columns fit on one page width)
+        window.applyPrintPageSize = function() {
+            let st = document.getElementById("dynamicPageStyle");
+            if (!st) { st = document.createElement("style"); st.id = "dynamicPageStyle"; document.head.appendChild(st); }
+            const back = window.activeView === "back";
+            st.textContent = back
+                ? "@page { size: A4 landscape; margin: 5mm; }"
+                : "@page { size: A4 portrait; margin: 8mm; }";
+            document.body.classList.toggle("back-print-mode", back);
+            document.body.classList.toggle("front-print-mode", !back);
+        };
+        window.printPage = function() { applyPrintPageSize(); setTimeout(() => window.print(), 50); };
+        window.addEventListener("beforeprint", applyPrintPageSize);
 
         window.onload = function() {
             const today = new Date().toISOString().split('T')[0];

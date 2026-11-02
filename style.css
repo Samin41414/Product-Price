@@ -83,19 +83,6 @@ body {
 
 /* Javascript ba View toggle er upor base kore @page size dynamic korar jonno */
 /* By default Front page hole Portrait, Back page hole Landscape set hobe */
-body.front-print-mode {
-    @page {
-        size: A4 portrait;
-        margin: 8mm;
-    }
-}
-
-body.back-print-mode {
-    @page {
-        size: A4 landscape;
-        margin: 5mm;
-    }
-}
 
 /* Common Print Table Settings */
 @media print {
@@ -190,4 +177,137 @@ body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
 /* Very small phones */
 @media screen and (max-width: 380px) {
     #frontPdfExportArea th, #frontPdfExportArea td { padding: 0.55rem 0.35rem !important; font-size: 11px; }
+}
+
+/* =========================================================
+   CATEGORY COLOURS (Standard + Premium palette)
+   Each category card rotates through these 6 colour themes
+   ========================================================= */
+.cat-c0 { --a1:#0284c7; --a2:#38bdf8; --soft:#e0f2fe; --ink:#075985; }  /* Ocean Blue   */
+.cat-c1 { --a1:#d97706; --a2:#fbbf24; --soft:#fef3c7; --ink:#92400e; }  /* Premium Gold */
+.cat-c2 { --a1:#059669; --a2:#34d399; --soft:#d1fae5; --ink:#065f46; }  /* Emerald      */
+.cat-c3 { --a1:#4f46e5; --a2:#818cf8; --soft:#e0e7ff; --ink:#3730a3; }  /* Indigo       */
+.cat-c4 { --a1:#e11d48; --a2:#fb7185; --soft:#ffe4e6; --ink:#9f1239; }  /* Rose         */
+.cat-c5 { --a1:#7c3aed; --a2:#a78bfa; --soft:#ede9fe; --ink:#5b21b6; }  /* Royal Violet */
+
+/* Total product number box */
+.count-badge {
+    background: linear-gradient(135deg, var(--a1), var(--a2));
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 12px -2px var(--a1), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+    letter-spacing: 0.02em;
+}
+
+/* Category icon box */
+.cat-icon {
+    background: var(--soft);
+    color: var(--ink);
+}
+.premium-card:hover .cat-icon,
+.back-cat-card:hover .cat-icon {
+    background: linear-gradient(135deg, var(--a1), var(--a2));
+    color: #ffffff;
+}
+
+/* Coloured top bar + side accent follow the category colour */
+.premium-card.cat-c0::before, .premium-card.cat-c1::before, .premium-card.cat-c2::before,
+.premium-card.cat-c3::before, .premium-card.cat-c4::before, .premium-card.cat-c5::before {
+    background: linear-gradient(90deg, var(--a1), var(--a2));
+    opacity: 1;
+}
+.premium-card[class*="cat-c"]:hover { border-color: var(--a2); }
+.back-cat-card[class*="cat-c"] { border-top: 3px solid var(--a1); }
+.back-cat-card[class*="cat-c"]:hover { border-color: var(--a1); }
+
+/* =========================================================
+   WEB VIEW: margin around pricing tables (Front + Back)
+   Print is not affected (print uses @page margin)
+   ========================================================= */
+@media screen {
+    #frontPdfExportArea .overflow-x-auto,
+    #backPdfExportArea .overflow-x-auto {
+        padding: 1.25rem 1.5rem 1.5rem;
+    }
+}
+@media screen and (max-width: 640px) {
+    #frontPdfExportArea .overflow-x-auto,
+    #backPdfExportArea .overflow-x-auto {
+        padding: 0.75rem 0.75rem 1rem;
+    }
+}
+
+/* =========================================================
+   PRINT HEADER: Logo + ASK INVESTMENT (Front + Back)
+   ========================================================= */
+.print-only-header { display: none; }
+
+@media print {
+    .print-only-header {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 0 0 6px 0;
+        margin: 0 0 8px 0;
+        border-bottom: 2px solid #002B49;
+    }
+    .print-only-header img {
+        height: 46px;
+        width: auto;
+        object-fit: contain;
+        display: block;
+    }
+    .print-only-header .print-brand-name {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        color: #002B49 !important;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .print-only-header .print-brand-dot {
+        display: inline-block;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #f59e0b !important;
+    }
+
+    /* screen-only table padding must not leak into print */
+    #frontPdfExportArea .overflow-x-auto,
+    #backPdfExportArea .overflow-x-auto { padding: 0 !important; }
+
+    /* NO CLIPPING: let every column fit inside the page width */
+    .print-card,
+    #frontPdfExportArea,
+    #backPdfExportArea,
+    #backPdfExportArea > div,
+    .overflow-x-auto {
+        overflow: visible !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+    }
+    #backPageView, #frontPageView, main { overflow: visible !important; }
+    .print-table {
+        width: 100% !important;
+        max-width: 100% !important;
+        table-layout: auto !important;
+    }
+    .print-table th, .print-table td,
+    .print-table th *, .print-table td * {
+        min-width: 0 !important;
+        max-width: none !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere;
+    }
+    .print-table th.w-16, .print-table th.w-8, .print-table th.w-20 { width: auto !important; }
+    .print-table th, .print-table td { padding: 3px 2px !important; }
+    body.back-print-mode .print-table th,
+    body.back-print-mode .print-table td { font-size: 7.5px !important; }
+    body.back-print-mode .print-table th { font-size: 7px !important; }
 }
